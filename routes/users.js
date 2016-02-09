@@ -20,6 +20,8 @@ router.post('/Users', function(req, res) {
 		errorMsg = 'username mandatory and non empty';
 	 } else if(isBlank(req.body.password)) {
 		errorMsg = 'password mandatory and non empty';
+	 }else if(isBlank(req.body.role)) {
+		errorMsg = 'role mandatory and non empty';
 	 }
 		
 	 if (errorMsg) {
@@ -30,6 +32,7 @@ router.post('/Users', function(req, res) {
         var user = new User();      // create a new instance of the Bear model
         user.username = req.body.username;  // set the bears name (comes from the request)
 		user.password = req.body.password; 
+		user.role = req.body.role; 
         user.save(function(err) {
             if (err) {
 				res.status(500)
@@ -68,6 +71,10 @@ router.put('/Users/:id', function(req, res) {
 	}
 	 if(isBlank(req.body.password)) {
 		errorMsg = 'password mandatory and non empty';
+	 }
+	 
+	 if(isBlank(req.body.role)) {
+		errorMsg = 'role mandatory and non empty';
 	 }
 
 	 //delete req.body.username;

@@ -13,7 +13,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a><%=req.user.username %></a></li>
+					<li><a><%=req.user.username %> : <%=req.user.role %></a></li>
 					<li><a href="/logout">Logout</a></li>
 				</ul> 
 <!-- <form class="navbar-form navbar-right">
@@ -29,6 +29,6 @@
 				<ul class="nav nav-sidebar">
 					<!-- <li id="CreateIdentiy" class=""><a href="create_identity">Create Identity<span class="sr-only">(current)</span></a></li> -->
 					
-					<li id="CreateIdentiy" class=""><a href="Admin">User Management<span class="sr-only">(current)</span></a></li>
+					<li id="CreateIdentiy" class=""><a href="users">User Management<span class="sr-only">(current)</span></a></li>
 				</ul>
 			</div>

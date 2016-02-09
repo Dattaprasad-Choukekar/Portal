@@ -7,6 +7,7 @@ var newUser            = new User();
  // set the user's local credentials
 newUser.username = 'admin';
 newUser.password = 'admin';
+newUser.role = 'AD';
 
 // save the user
 newUser.save(function(err) {
