@@ -8,8 +8,14 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-// Mongoose
+//Authentication Dependency
+var session  = require('express-session');
+var flash    = require('connect-flash');
 var mongoose = require('mongoose');
+var passport = require('passport');
+
+
+// Mongoose
 mongoose.connect('mongodb://localhost/portal_db', function(err) {
     if(err) {
         console.log('connection error', err);
@@ -32,6 +38,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Session management and Passport config
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+require('./config/passport')(passport);
+require('./routes/login')(app, passport);
+
+
 
 app.use('/', routes);
 app.use('/api', users);
