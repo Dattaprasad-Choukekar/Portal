@@ -17,16 +17,21 @@
 		<div class="table-responsive">
         <table class="table table-striped">
             <tr>
-                <td><b>ID</b></td>
+                <!--<td><b>ID</b></td> -->
                 <td><b>Username</b></td>
                 <td><b>Password</b></td>
+				<td><b>First Name</b></td>
+				<td><b>Last Name</b></td>
+				<td><b>Birth Date</b></td>
+				<td><b>Email</b></td>
+				<td><b>Sex</b></td>
 				<td><b>Role</b></td>
                 <td><b>Action</b></td>
             </tr>
             <tr ng-repeat="user in users">
-                <td>
+              <!--  <td>
                     {{user._id}}
-                </td>
+                </td> -->
                 <td>
                     {{user.username}}
                 </td>
@@ -34,6 +39,24 @@
                     {{user.password}}
                 </td>
 				<td>
+                    {{user.role}}
+                </td>
+				<td>
+                    {{user.firstName}}
+                </td>
+					<td>
+                    {{user.lastName}}
+                </td>
+					<td>
+                    {{user.birthDate}}
+                </td>
+					<td>
+                    {{user.email}}
+                </td>
+					<td>
+                    {{user.sex}}
+                </td>
+					<td>
                     {{user.role}}
                 </td>
                 <td>
@@ -65,6 +88,36 @@
                 <td><b>Password</b></td>
                 <td>
                     <input type="text" ng-model="password" />
+                </td>
+            </tr>
+			 <tr>
+                <td><b>First Name</b></td>
+                <td>
+                    <input type="text" ng-model="firstName" />
+                </td>
+            </tr>
+			 <tr>
+                <td><b>Last Name</b></td>
+                <td>
+                    <input type="text" ng-model="lastName" />
+                </td>
+            </tr>
+			 <tr>
+                <td><b>Birth Date</b></td>
+                <td>
+                    <input type="date" ng-model="birthDate" />
+                </td>
+            </tr>
+			<tr>
+                <td><b>Email</b></td>
+                <td>
+                    <input type="text" ng-model="email" />
+                </td>
+            </tr>
+			<tr>
+                <td><b>Sex</b></td>
+                <td>
+                   <select ng-model="sex" ng-options="x for x in sexes"></select>
                 </td>
             </tr>
 			 <tr>
@@ -140,6 +193,8 @@ app.service("userCrudService", function ($http) {
 app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 	$scope.roles = ['AD', 'ST', 'TR'];
 	$scope.role = 'AD'; // Default role
+	$scope.sexes = ['M', 'F', 'O'];
+	$scope.sex = 'M';
 	$scope.errorMessage = '';
     $scope.divUser = false;
 	GetAllUsers();
@@ -161,7 +216,12 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
         var User = {
             username: $scope.username,
             password: $scope.password,
-			role:$scope.role
+			role:$scope.role,
+			firstName:$scope.firstName,
+			lastName:$scope.lastName,
+			email:$scope.email,
+			birthDate:$scope.birthDate,
+			sex:$scope.sex,
         };
         var getUserAction = $scope.Action;
 
@@ -216,6 +276,11 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
             $scope.username = user.username;
 			$scope.role = user.role;
             $scope.password = user.password;
+			$scope.firstName = user.firstName;
+			$scope.lastName = user.lastName;
+			$scope.email = user.email;
+			$scope.birthDate = user.birthDate;
+			$scope.sex = user.sex;
             $scope.Action = "Update";
             $scope.divUser = true;
         }, function () {
@@ -227,7 +292,12 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 	function ClearFields() {
         $scope.username = "";
         $scope.password = "";
-		 $scope.role = "";
+		$scope.firstName = "";
+		$scope.lastName = "";
+		$scope.birthDate = "";
+		$scope.email = "";
+		$scope.sex = "";
+		$scope.role = "";
     }
 	
     $scope.Cancel = function () {

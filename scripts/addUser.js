@@ -8,6 +8,9 @@ var newUser            = new User();
 newUser.username = 'admin';
 newUser.password = 'admin';
 newUser.role = 'AD';
+newUser.firstName = 'Admin Name';
+newUser.lastName = 'Admin Name';
+newUser.email = 'Email';
 
 // save the user
 newUser.save(function(err) {

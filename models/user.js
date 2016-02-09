@@ -7,7 +7,13 @@ var mongoose = require('mongoose');
 var userSchema = mongoose.Schema({ 
 		username: {type: String,trim: true,unique: true,required: true},
 		password: {type: String,required: true},
-		role: {type: String, enum: ['AD', 'ST', 'TR'] }
+		role: {type: String, enum: ['AD', 'ST', 'TR'] , default: 'ST'},
+		firstName : {type: String,required: true},
+		lastName : {type: String,required: true},
+		birthDate : Date,
+		email: {type: String}, // Add validation
+		sex : {type: String, enum: ['M', 'F', 'O'], default: 'M' }
+		
 });
 
 // methods ======================

@@ -7,7 +7,10 @@ var User = require('../models/user.js');
 /* GET /Users listing. */
 router.get('/Users', function(req, res) {
   User.find(function (err, Users) {
-    if (err) res.send(err);
+    if (err) {
+		console.log(err);
+		res.send(err);
+	} 
     res.json(Users);
   });
 });
@@ -22,19 +25,23 @@ router.post('/Users', function(req, res) {
 		errorMsg = 'password mandatory and non empty';
 	 }else if(isBlank(req.body.role)) {
 		errorMsg = 'role mandatory and non empty';
+	 }else if(isBlank(req.body.firstName)) {
+		errorMsg = 'firstName mandatory and non empty';
+	 }else if(isBlank(req.body.lastName)) {
+		errorMsg = 'firstName mandatory and non empty';
 	 }
 		
 	 if (errorMsg) {
+		 console.debug(errorMsg);
 		 res.status(400).send(errorMsg);
 		 return 
 	 }
 
-        var user = new User();      // create a new instance of the Bear model
-        user.username = req.body.username;  // set the bears name (comes from the request)
-		user.password = req.body.password; 
-		user.role = req.body.role; 
+        var user = new User(req.body);      // create a new instance of the Bear model
+
         user.save(function(err) {
             if (err) {
+				console.log(err);
 				res.status(500)
                 res.send(err);
 			}
@@ -51,6 +58,7 @@ router.get('/Users/:id', function(req, res) {
 	}
   User.findById(req.params.id, function (err, post) {
     if (err) {
+		console.debug(errorMsg);
 		res.status(500).send(err);
 	}
 	if (post == null) {
@@ -71,15 +79,18 @@ router.put('/Users/:id', function(req, res) {
 	}
 	 if(isBlank(req.body.password)) {
 		errorMsg = 'password mandatory and non empty';
-	 }
-	 
-	 if(isBlank(req.body.role)) {
+	 } else if(isBlank(req.body.role)) {
 		errorMsg = 'role mandatory and non empty';
+	 } else if(isBlank(req.body.firstName)) {
+		errorMsg = 'firstName mandatory and non empty';
+	 }else if(isBlank(req.body.lastName)) {
+		errorMsg = 'firstName mandatory and non empty';
 	 }
 
 	 //delete req.body.username;
 		
 	 if (errorMsg) {
+		 console.log(errorMsg);
 		 res.status(400).send(errorMsg);
 		 return 
 	 }	
