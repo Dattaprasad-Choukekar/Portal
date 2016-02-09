@@ -1,0 +1,30 @@
+
+
+.page-title {
+	color: #1133FF;
+	width:80%;
+	margin-left:auto;
+	margin-right: auto;
+	border-bottom: 1px solid #DDD;
+	
+}
+
+.content {
+	width: 90%;
+	height:100%;
+	
+	background-color: white;
+	border: 2px solid black;
+
+	margin-left: auto;
+	margin-right:auto;
+}
+
+html{
+	height:100%;
+}
+
+body {
+	height: 100%;
+	background-color: #eee;
+}

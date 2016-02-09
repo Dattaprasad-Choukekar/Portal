@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<% include partials/head.html %>
+<title>Login Page</title>
+</head>
+
+<body>
+
+
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div style="css/signin.css">
+		<div class="form-group has-error">
+			<% if (message) { %>
+			<p class="error"><%= message %></p>
+			<% } %>
+		</div>
+          <form class="form-signin" method="post">
+          <h2 class="form-signin-heading">Please sign in</h2>
+          <label for="inputEmail" class="sr-only">Email address</label> 
+          <input type="text" name="username" id="username" class="form-control" placeholder="Email address" required="" autofocus="" /> 
+          <label for="inputPassword" class="sr-only">Password</label> 
+          <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="" />
+          <div class="checkbox">
+            <label>
+            <input type="checkbox" value="remember-me" /> Remember me</label>
+          </div>
+          <button name="submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button></form>
+        </div>
+</div>
+
+<% include partials/bottom.html %>
+</body>
+</html>

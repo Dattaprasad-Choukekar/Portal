@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+<% include partials/head.html %>
+<title><%=title %></title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+
+<body ng-app="UserCrudOps">
+
+<% include partials/top.html %>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div ng-controller="UserCrudOpsCtrl">
+    
+        <h2 class="sub-header">List of Users</h2> 
+		<div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>Username</b></td>
+                <td><b>Password</b></td>
+                <td><b>Action</b></td>
+            </tr>
+            <tr ng-repeat="user in users">
+                <td>
+                    {{user._id}}
+                </td>
+                <td>
+                    {{user.username}}
+                </td>
+                <td>
+                    {{user.password}}
+                </td>
+                <td>
+                    <span ng-click="editUser(user)" class="btn btn-primary">Edit</span>
+                    <span ng-click="deleteUser(user)" class="btn btn-danger">Delete</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <span ng-click="AddUserDiv()" class="btn btn-default" >
+        {{Action}} User
+    </span>
+    <div ng-show="divUser">
+        <p class="divHead"></p>
+        <table class="table">
+            <tr>
+                <td><b><i>{{Action}} User</i></b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> 
+            <tr>
+                <td><b>Username</b></td>
+                <td>
+                    <input type="text" ng-model="username" />
+                </td>
+            </tr>           
+            <tr>
+                <td><b>Password</b></td>
+                <td>
+                    <input type="text" ng-model="password" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td >
+                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateUser()" />
+                    <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+                </td>
+            </tr>
+        </table>        
+    </div>
+	<div ng-show='errorMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>
+</div>
+</div>
+</div>
+
+<script >
+
+var app = angular.module("UserCrudOps", []);
+
+app.service("userCrudService", function ($http) {
+
+    //get All Users
+    this.getUsers = function () {
+        return $http.get("/api/Users");
+    };
+	
+	 // Add User
+    this.AddUser = function (user) {
+        var response = $http({
+            method: "post",
+            url: "/api/Users",
+            data: JSON.stringify(user)
+        });
+        return response;
+    };
+	
+	this.UpdateUser = function (user) {
+        var response = $http({
+            method: "put",
+            url: "/api/Users/" + user._id,
+            data: JSON.stringify(user)
+        });
+        return response;
+    };
+
+    this.DeleteUser = function (userId) {
+        var response = $http({
+            method: "delete",
+            url: "/api/Users/" + userId
+        });
+        return response;
+    };
+	
+	this.GetUser = function (userId) {
+        var response = $http({
+            method: "get",
+            url: "/api/Users/" + userId
+        });
+        return response;
+    }
+   
+});
+
+app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
+	$scope.errorMessage = '';
+    $scope.divUser = false;
+	GetAllUsers();
+	
+    //To Get all user records  
+    function GetAllUsers() {
+		var getUserData = userCrudService.getUsers();
+        getUserData.then(function (users) {
+			console.log(users);
+            $scope.users = users.data;
+        }, function () {
+            console.error('Error in getting users');
+			$scope.errorMessage = 'Error in getting users';
+        });
+    }
+	
+	$scope.AddUpdateUser = function () {
+        var User = {
+            username: $scope.username,
+            password: $scope.password,
+        };
+        var getUserAction = $scope.Action;
+
+        if (getUserAction == "Update") {
+           
+		    User._id = $scope.user_id;
+            var getUserData = userCrudService.UpdateUser(User);
+            getUserData.then(function (msg) {
+                GetAllUsers();
+                $scope.divUser = false;
+				$scope.Action = 'Add User';
+            }, function () {
+				console.error('Error in updating user');
+				$scope.errorMessage = 'Error in updating user';
+            });
+			
+        } else {
+            var getUserData = userCrudService.AddUser(User);
+            getUserData.then(function (msg) {
+                GetAllUsers();
+                $scope.divUser = false;
+				$scope.Action = 'Add User';
+            }, function () {
+               console.error('Error in adding user');
+			   $scope.errorMessage = 'Error in adding user';
+            });
+        }
+    }
+	
+	$scope.AddUserDiv = function () {
+        ClearFields();
+        $scope.Action = "Add";
+        $scope.divUser = true;
+    }
+	
+	
+	$scope.deleteUser = function (user) {
+        var getUserData = userCrudService.DeleteUser(user._id);
+        getUserData.then(function (msg) {
+            GetAllUsers();
+        }, function () {
+			console.error('Error in deleting user');
+			$scope.errorMessage = 'Error in deleting user';
+        });
+    }
+	
+	$scope.editUser = function (user) {
+        var getUserData = userCrudService.GetUser(user._id);
+        getUserData.then(function (_user) {
+            $scope.user = _user.data;
+            $scope.user_id = user._id;
+            $scope.username = user.username;
+            $scope.password = user.password;
+            $scope.Action = "Update";
+            $scope.divUser = true;
+        }, function () {
+			console.error('Error in getting user');
+			$scope.errorMessage = 'Error in getting user';
+        });
+    }
+	
+	function ClearFields() {
+        $scope.username = "";
+        $scope.password = "";
+    }
+	
+    $scope.Cancel = function () {
+        $scope.divUser = false;
+		$scope.Action = 'Add';
+    };
+	
+	
+});
+</script >
+
+<% include partials/bottom.html %>
+</body>
+</html>
