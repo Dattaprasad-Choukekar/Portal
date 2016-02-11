@@ -18,7 +18,8 @@
 	"passport": "^0.2.1",
     "passport-local": "^1.0.0",
 	"connect-flash" : "~0.1.1",     
-    "bcrypt-nodejs" : "latest"
+    "bcrypt-nodejs" : "latest",
+	"passport-http" : "~0.3.0"
 	
   }
 }

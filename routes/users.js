@@ -32,17 +32,17 @@ router.post('/Users', function(req, res) {
 	 }
 		
 	 if (errorMsg) {
-		 console.debug(errorMsg);
+		 console.log(errorMsg);
 		 res.status(400).send(errorMsg);
 		 return 
 	 }
 
         var user = new User(req.body);      // create a new instance of the Bear model
-
+		console.log('ddddddddd'+user);
         user.save(function(err) {
             if (err) {
 				console.log(err);
-				res.status(500)
+				res.status(501)
                 res.send(err);
 			}
             res.status(201).end();

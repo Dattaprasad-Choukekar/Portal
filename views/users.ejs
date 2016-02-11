@@ -39,9 +39,6 @@
                     {{user.password}}
                 </td>
 				<td>
-                    {{user.role}}
-                </td>
-				<td>
                     {{user.firstName}}
                 </td>
 					<td>
@@ -79,25 +76,25 @@
                 <td></td>
             </tr> 
             <tr>
-                <td><b>Username</b></td>
+                <td><b>Username *</b></td>
                 <td>
                     <input type="text" ng-model="username" />
                 </td>
             </tr>           
             <tr>
-                <td><b>Password</b></td>
+                <td><b>Password *</b></td>
                 <td>
                     <input type="text" ng-model="password" />
                 </td>
             </tr>
 			 <tr>
-                <td><b>First Name</b></td>
+                <td><b>First Name *</b></td>
                 <td>
                     <input type="text" ng-model="firstName" />
                 </td>
             </tr>
 			 <tr>
-                <td><b>Last Name</b></td>
+                <td><b>Last Name *</b></td>
                 <td>
                     <input type="text" ng-model="lastName" />
                 </td>
@@ -192,9 +189,7 @@ app.service("userCrudService", function ($http) {
 
 app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 	$scope.roles = ['AD', 'ST', 'TR'];
-	$scope.role = 'AD'; // Default role
 	$scope.sexes = ['M', 'F', 'O'];
-	$scope.sex = 'M';
 	$scope.errorMessage = '';
     $scope.divUser = false;
 	GetAllUsers();
@@ -205,8 +200,8 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
         getUserData.then(function (users) {
 			console.log(users);
             $scope.users = users.data;
-        }, function () {
-            console.error('Error in getting users');
+        }, function (data) {
+            console.error('Error in getting users :' + data.data);
 			$scope.errorMessage = 'Error in getting users';
         });
     }
@@ -233,8 +228,8 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
                 GetAllUsers();
                 $scope.divUser = false;
 				$scope.Action = 'Add User';
-            }, function () {
-				console.error('Error in updating user');
+            }, function (data) {
+				console.error('Error in updating user' + data.data);
 				$scope.errorMessage = 'Error in updating user';
             });
 			
@@ -244,8 +239,8 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
                 GetAllUsers();
                 $scope.divUser = false;
 				$scope.Action = 'Add User';
-            }, function () {
-               console.error('Error in adding user');
+            }, function (data) {
+               console.error('Error in adding user : ' + data.data);
 			   $scope.errorMessage = 'Error in adding user';
             });
         }
@@ -255,6 +250,8 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
         ClearFields();
         $scope.Action = "Add";
         $scope.divUser = true;
+		$scope.role = 'AD';
+		$scope.sex = 'M';
     }
 	
 	
@@ -262,8 +259,8 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
         var getUserData = userCrudService.DeleteUser(user._id);
         getUserData.then(function (msg) {
             GetAllUsers();
-        }, function () {
-			console.error('Error in deleting user');
+        }, function (data) {
+			console.error('Error in deleting user' + data.data);
 			$scope.errorMessage = 'Error in deleting user';
         });
     }
@@ -283,8 +280,8 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 			$scope.sex = user.sex;
             $scope.Action = "Update";
             $scope.divUser = true;
-        }, function () {
-			console.error('Error in getting user');
+        }, function (data) {
+			console.error('Error in getting user' + data.data);
 			$scope.errorMessage = 'Error in getting user';
         });
     }

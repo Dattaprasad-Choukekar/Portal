@@ -19,12 +19,29 @@ app.get('/logout', function(req, res) {
 });
 
 app.use('/api/*', function (req, res, next) {
-	if (req.isAuthenticated())
-        return next();
-    res.sendStatus(401);
+	if (req.isAuthenticated()) {
+		 return next();
+	}
+	// Temp solution
+	// if session cookie not found try basic auth
+	passport.authenticate('basic', function(err, user, info) {	 
+    if (err) { 
+		console.log(err);
+		return res.status(500).send(err);
+	}
+    // Redirect if it fails
+	if (!user) { return res.sendStatus(401); }
+	req.user = user;
+	next();
+	})(req, res, next);
+	
 });
 
 app.use('/', function (req, res, next) {
+	if (req.url.indexOf('/api/') > -1) {
+		 console.log('Allowing ws req');
+		 return next();
+	}
 	if (req.isAuthenticated()){
 		res.locals.req = req;
 		res.locals.res = res;
