@@ -3,7 +3,7 @@
 var LocalStrategy   = require('passport-local').Strategy;
 var BasicStrategy = require('passport-http').BasicStrategy;
 
-var User            = require('../models/user');
+var models            = require('../models/models');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -13,7 +13,7 @@ module.exports = function(passport) {
     });
 
     passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+        models.User.findById(id, function(err, user) {
             done(err, user);
         });
     });
@@ -32,7 +32,8 @@ module.exports = function(passport) {
 	
      
 	 function authenticate(req, username, password, done) {
-		User.findOne({ 'username' :  username }, function(err, user) {
+		models.User.findOne({ 'username' :  username }).select('password')
+		.exec(function(err, user) {
 			console.log(err);
 			// if there are any errors, return the error before anything else
             if (err) {
@@ -53,8 +54,9 @@ module.exports = function(passport) {
 	 };
 	 
 	passport.use(new BasicStrategy(
-		function(userid, password, done) {
-					User.findOne({ 'username' :  userid }, function(err, user) {
+		function(username, password, done) {
+		models.User.findOne({ 'username' :  username }).select('password')
+		.exec( function(err, user) {
 			console.log(err);
 			// if there are any errors, return the error before anything else
             if (err) {

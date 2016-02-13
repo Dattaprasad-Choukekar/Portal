@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var class_ws = require('./routes/class_ws');
 
 //Authentication Dependency
 var session  = require('express-session');
@@ -51,6 +52,7 @@ require('./routes/login')(app, passport);
 
 app.use('/', routes);
 app.use('/api', users);
+app.use('/api', class_ws);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
-var User = require('../models/user.js');
+var models = require('../models/models.js');
 
 /* GET /Users listing. */
 router.get('/Users', function(req, res) {
-  User.find(function (err, Users) {
+  models.User.find(function (err, Users) {
     if (err) {
 		console.log(err);
 		res.send(err);
@@ -37,7 +37,7 @@ router.post('/Users', function(req, res) {
 		 return 
 	 }
 
-        var user = new User(req.body);      // create a new instance of the Bear model
+        var user = new models.User(req.body);      // create a new instance of the Bear model
 		console.log('ddddddddd'+user);
         user.save(function(err) {
             if (err) {
@@ -56,7 +56,7 @@ router.get('/Users/:id', function(req, res) {
 		res.status(400).send('id not valid');
 		return;
 	}
-  User.findById(req.params.id, function (err, post) {
+  models.User.findById(req.params.id, function (err, post) {
     if (err) {
 		console.debug(errorMsg);
 		res.status(500).send(err);
@@ -94,7 +94,7 @@ router.put('/Users/:id', function(req, res) {
 		 res.status(400).send(errorMsg);
 		 return 
 	 }	
-  User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+  models.User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
      if (err) {
 		res.status(500).send(err);
 	}
@@ -112,7 +112,7 @@ router.delete('/Users/:id', function(req, res) {
 		res.status(400).send('id not valid');
 		return;
 	}
-  User.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+  models.User.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) {
 		return res.status(500).send(err);
 	}

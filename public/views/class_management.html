@@ -1,0 +1,69 @@
+    <h2 class="sub-header">List of Classes</h2> 
+		<div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>Name</b></td>
+                <td><b>Students Number</b></td>
+				<td><b>Students</b></td>
+            </tr>
+            <tr ng-repeat="class in classes">
+                <td>
+                    {{class._id}}
+                </td>
+                <td>
+                    {{class.name}}
+                </td>
+                <td>
+                    {{class.students.length}}
+                </td>
+				<td>
+                    {{class.students}}
+                </td>
+                <td>
+                    <span ng-click="editClass(class)" class="btn btn-primary">Edit</span>
+                    <span ng-click="deleteClass(class)" class="btn btn-danger">Delete</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+	
+	   <span ng-click="AddElementDiv()" class="btn btn-default" >
+        {{Action}} Class
+    </span>
+    <div ng-show="divAddElement">
+        <p class="divHead"></p>
+        <table class="table">
+            <tr>
+                <td><b><i>{{Action}} Class</i></b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> 
+            <tr>
+                <td><b>Name *</b></td>
+                <td>
+                    <input type="text" ng-model="name" />
+                </td>
+            </tr>           
+            <tr>
+                <td><b>Students *</b></td>
+                <td>
+					<label ng-repeat="student in classVar.students">
+						<input type="checkbox" checklist-model="students" checklist-value="student._id"> {{student.firstName}}
+						
+					</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td >
+                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateUser()" />
+                    <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+                </td>
+            </tr>
+        </table>        
+    </div>
+	<div ng-show='errorMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>

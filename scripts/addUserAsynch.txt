@@ -6,6 +6,7 @@ mongoose.connect('mongodb://localhost/portal_db');
 var models    = require('../models/models');
 
 
+function deleteDB() {
 var mgdb= require('mongodb').Db;
     var Server = require('mongodb').Server;
 
@@ -16,7 +17,7 @@ db.open(function(err, db) {
    adduser();
   });
 });
-
+}
 function adduser() {
 	var newUser            = new models.User();
  // set the user's local credentials

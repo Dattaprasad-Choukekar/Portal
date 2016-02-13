@@ -1,0 +1,123 @@
+    <h2 class="sub-header">List of Users</h2> 
+		<div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <!--<td><b>ID</b></td> -->
+                <td><b>Username</b></td>
+                <td><b>Password</b></td>
+				<td><b>First Name</b></td>
+				<td><b>Last Name</b></td>
+				<td><b>Birth Date</b></td>
+				<td><b>Email</b></td>
+				<td><b>Sex</b></td>
+				<td><b>Role</b></td>
+                <td><b>Action</b></td>
+            </tr>
+            <tr ng-repeat="user in users">
+              <!--  <td>
+                    {{user._id}}
+                </td> -->
+                <td>
+                    {{user.username}}
+                </td>
+                <td>
+                    {{user.password}}
+                </td>
+				<td>
+                    {{user.firstName}}
+                </td>
+					<td>
+                    {{user.lastName}}
+                </td>
+					<td>
+                    {{user.birthDate}}
+                </td>
+					<td>
+                    {{user.email}}
+                </td>
+					<td>
+                    {{user.sex}}
+                </td>
+					<td>
+                    {{user.role}}
+                </td>
+                <td>
+                    <span ng-click="editUser(user)" class="btn btn-primary">Edit</span>
+                    <span ng-click="deleteUser(user)" class="btn btn-danger">Delete</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+	
+	   <span ng-click="AddUserDiv()" class="btn btn-default" >
+        {{Action}} User
+    </span>
+    <div ng-show="divUser">
+        <p class="divHead"></p>
+        <table class="table">
+            <tr>
+                <td><b><i>{{Action}} User</i></b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> 
+            <tr>
+                <td><b>Username *</b></td>
+                <td>
+                    <input type="text" ng-model="username" />
+                </td>
+            </tr>           
+            <tr>
+                <td><b>Password *</b></td>
+                <td>
+                    <input type="text" ng-model="password" />
+                </td>
+            </tr>
+			 <tr>
+                <td><b>First Name *</b></td>
+                <td>
+                    <input type="text" ng-model="firstName" />
+                </td>
+            </tr>
+			 <tr>
+                <td><b>Last Name *</b></td>
+                <td>
+                    <input type="text" ng-model="lastName" />
+                </td>
+            </tr>
+			 <tr>
+                <td><b>Birth Date</b></td>
+                <td>
+                    <input type="date" ng-model="birthDate" />
+                </td>
+            </tr>
+			<tr>
+                <td><b>Email</b></td>
+                <td>
+                    <input type="text" ng-model="email" />
+                </td>
+            </tr>
+			<tr>
+                <td><b>Sex</b></td>
+                <td>
+                   <select ng-model="sex" ng-options="x for x in sexes"></select>
+                </td>
+            </tr>
+			 <tr>
+                <td><b>Role</b></td>
+                <td>
+                    <select ng-model="role" ng-options="x for x in roles"></select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td >
+                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateUser()" />
+                    <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+                </td>
+            </tr>
+        </table>        
+    </div>
+	<div ng-show='errorMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>
