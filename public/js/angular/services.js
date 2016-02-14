@@ -56,6 +56,60 @@ app.service("ClassCrudService", function ($http) {
             url: "/api/Classes/" + classId
         });
         return response;
-    }
+    };
+	
+		this.AddClass = function (classVar) {
+        var response = $http({
+            method: "post",
+            url: "/api/Classes",
+            data: JSON.stringify(classVar)
+        });
+        return response;
+    };
+	
+	    this.DeleteClass = function (classId) {
+        var response = $http({
+            method: "delete",
+            url: "/api/Classes/" + classId
+        });
+        return response;
+    };
+	
+		this.UpdateClass = function (classVar) {
+        var response = $http({
+            method: "put",
+            url: "/api/Classes/" + classVar._id,
+            data: JSON.stringify(classVar)
+        });
+        return response;
+    };
 	
 	});
+	
+app.service("StudentCrudService", function ($http) {
+
+    this.getAllStudents = function () {
+        return $http.get("/api/Students");
+    };
+	
+	this.getStudentsNotBelongingToClass = function () {
+         return $http.get("/api/Students");
+		 /*
+		.then(function(response) {
+
+			for (var key in response.data) {
+				if (response.data[key].classRef) {
+					console.log('deleting');
+					delete response.data[key];
+				}				
+			}
+			console.log(response.data);
+			return response.data;
+		});
+		*/
+    };
+	
+
+	
+	
+});

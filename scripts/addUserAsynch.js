@@ -4,9 +4,9 @@ var async = require('async');
 mongoose.connect('mongodb://localhost/portal_db');
 
 var models    = require('../models/models');
+var classRef = {};
 
-
-async.series([deleteDB, addAdminUser, addStudents],
+async.series([deleteDB, addAdminUser,addClass, addStudents],
 
 function callback (err, results){
 	if (err) { 
@@ -37,6 +37,23 @@ function deleteDB(callback) {
 	});
 });
 };
+
+function addClass(callback) {
+	var newClass = new models.Class();
+	newClass.name = 'cl1';
+	classRef = newClass;
+	// save the user
+	newClass.save(function(err) {
+	  if (err) {
+	   console.log(err);
+	   callback(err);
+	  }
+	   console.log('Added class ');
+	   callback(null);
+	}
+);
+};
+
 function addAdminUser(callback) {
 	var newUser = new models.User();
 	newUser.username = 'admin';
@@ -63,7 +80,7 @@ function addStudents(callback) {
 	var usersArr = [];
 	
 	for (var i=0; i<10; i++) {
-		var newUser = new models.User();
+		var newUser = new models.Student();
 		// set the user's local credentials
 		newUser.username = 'std' + i;
 		newUser.password = 'std'+ i;
@@ -71,10 +88,12 @@ function addStudents(callback) {
 		newUser.firstName = 'std'+ i+' Name';
 		newUser.lastName = 'std'+ i+' Name';
 		newUser.email = 'std@dom.com';
+		//newUser.classRef = classRef;
 
 		// save the user
 		//newUser.save(saveUserFunc);
 		usersArr.push(newUser);
+		console.log(classRef.name);
 	}
 	
 	async.eachSeries(usersArr, function iterator(student, done) {
@@ -92,27 +111,5 @@ function addStudents(callback) {
 		if (err)  callback(err);
 		callback();
 	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	
 };

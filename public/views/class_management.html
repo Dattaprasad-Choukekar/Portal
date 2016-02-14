@@ -18,7 +18,10 @@
                     {{class.students.length}}
                 </td>
 				<td>
-                    {{class.students}}
+				 <span ng-repeat="student in class.students">
+				 
+                    {{student.firstName}}
+					</span>
                 </td>
                 <td>
                     <span ng-click="editClass(class)" class="btn btn-primary">Edit</span>
@@ -49,16 +52,15 @@
             <tr>
                 <td><b>Students *</b></td>
                 <td>
-					<label ng-repeat="student in classVar.students">
-						<input type="checkbox" checklist-model="students" checklist-value="student._id"> {{student.firstName}}
-						
-					</label>
+	<label ng-repeat="student in remaining_students">
+		 <input ng-checked="student.classRef" ng-model="selection[$index]" ng-click="toggleSelection(student, selection[$index])" type="checkbox" n/>{{student.firstName}}
+	</label>
                 </td>
             </tr>
             <tr>
                 <td></td>
                 <td >
-                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateUser()" />
+                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateElement()" />
                     <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
                 </td>
             </tr>
