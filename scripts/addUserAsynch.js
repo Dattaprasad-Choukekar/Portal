@@ -6,7 +6,7 @@ mongoose.connect('mongodb://localhost/portal_db');
 var models    = require('../models/models');
 var classRef = {};
 
-async.series([deleteDB, addAdminUser,addClass, addStudents],
+async.series([deleteDB, addAdminUser, addStudents, addClass ],
 
 function callback (err, results){
 	if (err) { 
@@ -37,7 +37,7 @@ function deleteDB(callback) {
 	});
 });
 };
-
+/*
 function addClass(callback) {
 	var newClass = new models.Class();
 	newClass.name = 'cl1';
@@ -53,6 +53,8 @@ function addClass(callback) {
 	}
 );
 };
+
+*/
 
 function addAdminUser(callback) {
 	var newUser = new models.User();
@@ -112,4 +114,48 @@ function addStudents(callback) {
 		callback();
 	});
 	
+};
+
+function addClass(callback) {
+	
+models.Student.find({},function fun(err, data){
+	
+		var studentIdArr = [];
+		console.log(data);
+		for (var index in data) {
+			//console.log(student);
+			studentIdArr.push(data[index]._id);
+		}
+		var newClass = new models.Class();
+	newClass.name = 'cl1';
+	studentIdArr.splice(5,5);
+	newClass.students = studentIdArr;
+	// save the user
+	newClass.save(function(err, classVar) {
+	  if (err) {
+	   console.log(err);
+	   callback(err);
+	  }
+	   console.log('Added class ');
+	   
+	models.Student.update({
+    '_id': { $in: studentIdArr}
+ }, {  classRef : classVar._id}, { multi: true }, function (err, raw) {
+  if (err)  {
+	  console.log('Error while updating classRef of student  model', err);
+	  callback(err);
+  } else {
+	  console.log('Updated students');
+	   console.log(raw);
+	 callback();
+	  
+  }
+
+});
+	   
+	  
+	});
+	});
+	
+
 };
