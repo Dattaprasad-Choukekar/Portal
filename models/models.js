@@ -26,7 +26,6 @@ userSchema.methods.generateHash = function(password) {
 */
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-	console.log('Abe lawade');
 	console.log(this.password);
     return this.password==password;
 };
@@ -40,15 +39,20 @@ var userModel = mongoose.model('User', userSchema);
       new mongoose.Schema({class_ref: { type: mongoose.Schema.ObjectId, ref: 'Class'}}
 	  , options)
 	  );
+	  
+	  var teacherModel = userModel.discriminator('Teacher',
+      new mongoose.Schema({}
+	  , options)
+	  );
 
 //------------------------------------------------------------
 
 var classSchema = mongoose.Schema({ 
 		name: {type: String, trim: true,unique: true, required: true},
-		students: [{ type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be student', validate : validator }]		
+		students: [{ type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be student', validate : studentValidator }]		
 });
 
-function validator (arr, callback) {
+function studentValidator (arr, callback) {
 
 	userModel.findOne({'_id': arr}, function(err, val){
 		if(err) return callback(false);;
@@ -74,9 +78,31 @@ classSchema.pre('findOneAndRemove', function(next) {
 
 */
 var classModel = mongoose.model('Class', classSchema);
+//---------------- Course Schema
+var courseSchema = mongoose.Schema({ 
+		name: {type: String, trim: true, unique: true, required: true},
+		students: [{ type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be student', validate : studentValidator }],
+		teacher: { type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be teacher', validate : teacherValidator }
+});
 
+function teacherValidator (arr, callback) {
+	userModel.findOne({'_id': arr}, function(err, val){
+		if(err) return callback(false);;
+		// if user must have student role.
+		if (val && val.role == 'TR') {
+			return callback(true);
+		} 
+		return callback(false);
+	 });
+}
+
+var courseModel = mongoose.model('Course', courseSchema);
+
+//---------------- Exports
 module.exports = {
     User: userModel,
 	Class : classModel,
-	Student : studentModel
+	Student : studentModel,
+	Teacher : teacherModel,
+	Course : courseModel
 };

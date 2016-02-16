@@ -6,7 +6,7 @@ mongoose.connect('mongodb://localhost/portal_db');
 var models    = require('../models/models');
 var classRef = {};
 
-async.series([deleteDB, addAdminUser, addStudents, addClass ],
+async.series([deleteDB, addAdminUser,addTeacher, addStudents, addClass , addCourses],
 
 function callback (err, results){
 	if (err) { 
@@ -72,6 +72,28 @@ function addAdminUser(callback) {
 	   callback(err);
 	  }
 	   console.log('Added user '  + newUser.username + ':' + newUser.password);
+	   callback(null);
+	}
+);
+};
+
+
+function addTeacher(callback) {
+	var newTeacher = new models.Teacher();
+	newTeacher.username = 'tchr1';
+	newTeacher.password = 'tchr1';
+	newTeacher.role = 'TR';
+	newTeacher.firstName = 'tchr1 Name';
+	newTeacher.lastName = 'tchr1 Last Name';
+	newTeacher.email = 'Email';
+
+	// save the user
+	newTeacher.save(function(err) {
+		if (err) {
+			console.log(err);
+			callback(err);
+		}
+	   console.log('Added Teacher '  + newTeacher.username + ':' + newTeacher.password);
 	   callback(null);
 	}
 );
@@ -158,4 +180,39 @@ models.Student.find({},function fun(err, data){
 	});
 	
 
+};
+
+
+
+function addCourses(callback) {
+
+	models.User.find({},function fun(err, data){
+		var userIdArr = [];
+		var teacherId = null;
+		for (var index in data) {
+			//console.log(student);
+			if (data[index].role == 'TR') {
+				teacherId = data[index]._id;
+			} else if(data[index].role == 'ST') {
+				userIdArr.push(data[index]._id);
+			}
+			
+		}
+		userIdArr.splice(5,5);
+		
+		var newCourse = new models.Course();
+		newCourse.name = 'crse1';
+		
+		newCourse.students = userIdArr;
+		newCourse.teacher = teacherId;
+		// save the user
+		newCourse.save(function(err, classVar) {
+			if (err) {
+				console.log(err);
+				return callback(err);
+			}
+			console.log('Added Course ');
+			callback();
+		});
+	}); 
 };

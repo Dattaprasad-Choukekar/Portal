@@ -130,6 +130,8 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
         getClassData.then(function (classes) {
 			console.log(classes);
             $scope.classes = classes.data;
+			console.log('sssssssss');
+			console.log($scope.classes);
         }, function (data) {
             console.error('Error in getting classes :' + data.data);
 			$scope.errorMessage = 'Error in getting classes';

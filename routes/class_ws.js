@@ -25,6 +25,7 @@ router.get('/Classes', function(req, res) {
 
 
 router.post('/Classes', function(req, res) {
+	 console.log(req.body);
 	 var errorMsg;
 	 if (isBlank(req.body.name)) {
 		errorMsg = 'name mandatory and non empty';

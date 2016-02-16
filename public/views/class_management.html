@@ -52,7 +52,7 @@
             <tr>
                 <td><b>Students *</b></td>
                 <td>
-	<label ng-repeat="student in remaining_students">
+	<label ng-repeat="student in remaining_students track by $index">
 		 <input ng-checked="student.classRef" ng-model="selection[$index]" ng-click="toggleSelection(student, selection[$index])" type="checkbox" n/>{{student.firstName}}
 	</label>
                 </td>

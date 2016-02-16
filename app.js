@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var class_ws = require('./routes/class_ws');
 var students_ws = require('./routes/students_ws');
+var course_ws = require('./routes/course_ws');
 
 //Authentication Dependency
 var session  = require('express-session');
@@ -42,7 +43,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session management and Passport config
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(session({secret:'ilovescotchscotchyscotchscotch', cookie:{maxAge:600000}}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -55,6 +56,7 @@ app.use('/', routes);
 app.use('/api', users);
 app.use('/api', class_ws);
 app.use('/api', students_ws);
+app.use('/api', course_ws);
 
 
 // catch 404 and forward to error handler

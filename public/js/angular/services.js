@@ -59,6 +59,7 @@ app.service("ClassCrudService", function ($http) {
     };
 	
 		this.AddClass = function (classVar) {
+			console.log(JSON.stringify(classVar));
         var response = $http({
             method: "post",
             url: "/api/Classes",
