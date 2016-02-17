@@ -5,7 +5,8 @@ mongoose.connect('mongodb://localhost/portal_db');
 
 var models    = require('../models/models');
 var classRef = {};
-
+var teacherId = null;
+var classId = null;
 async.series([deleteDB, addAdminUser,addTeacher, addStudents, addClass , addCourses],
 
 function callback (err, results){
@@ -93,9 +94,25 @@ function addTeacher(callback) {
 			console.log(err);
 			callback(err);
 		}
-	   console.log('Added Teacher '  + newTeacher.username + ':' + newTeacher.password);
-	   callback(null);
-	}
+		var newTeacher = new models.Teacher();
+		newTeacher.username = 'tchr2';
+		newTeacher.password = 'tchr2';
+		newTeacher.role = 'TR';
+		newTeacher.firstName = 'tchr2 Name';
+		newTeacher.lastName = 'tchr2 Last Name';
+		newTeacher.email = 'Email';
+		newTeacher.save(function(err, data) {
+			if (err) {
+				console.log(err);
+				callback(err);
+			}
+			teacherId = data._id;
+			console.log('Added Teacher '  + newTeacher.username + ':' + newTeacher.password);
+			callback(null);
+		});
+		
+		}
+	
 );
 };
 
@@ -158,6 +175,7 @@ models.Student.find({},function fun(err, data){
 	   console.log(err);
 	   callback(err);
 	  }
+	   classId = classVar._id;
 	   console.log('Added class ');
 	   
 	models.Student.update({
@@ -185,26 +203,11 @@ models.Student.find({},function fun(err, data){
 
 
 function addCourses(callback) {
-
-	models.User.find({},function fun(err, data){
-		var userIdArr = [];
-		var teacherId = null;
-		for (var index in data) {
-			//console.log(student);
-			if (data[index].role == 'TR') {
-				teacherId = data[index]._id;
-			} else if(data[index].role == 'ST') {
-				userIdArr.push(data[index]._id);
-			}
-			
-		}
-		userIdArr.splice(5,5);
 		
 		var newCourse = new models.Course();
 		newCourse.name = 'crse1';
-		
-		newCourse.students = userIdArr;
 		newCourse.teacher = teacherId;
+		newCourse.classes = [classId];
 		// save the user
 		newCourse.save(function(err, classVar) {
 			if (err) {
@@ -214,5 +217,5 @@ function addCourses(callback) {
 			console.log('Added Course ');
 			callback();
 		});
-	}); 
+
 };
