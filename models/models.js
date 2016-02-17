@@ -81,8 +81,9 @@ var classModel = mongoose.model('Class', classSchema);
 //---------------- Course Schema
 var courseSchema = mongoose.Schema({ 
 		name: {type: String, trim: true, unique: true, required: true},
-		students: [{ type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be student', validate : studentValidator }],
-		teacher: { type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be teacher', validate : teacherValidator }
+		//students: [{ type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be student', validate : studentValidator }],
+		teacher: { type: mongoose.Schema.ObjectId, ref: 'User', message:'user should be teacher', validate : teacherValidator },
+		classes: [{ type: mongoose.Schema.ObjectId, ref: 'Class'}],
 });
 
 function teacherValidator (arr, callback) {
@@ -98,11 +99,23 @@ function teacherValidator (arr, callback) {
 
 var courseModel = mongoose.model('Course', courseSchema);
 
+//---------------- File Schema
+var fileSchema = mongoose.Schema({ 
+		originalname: {type: String, trim: true, required: true},
+		filename: {type: String, unique:true, required: true},
+		size	: {type: Number, trim: true, required: true},
+		destination: {type: String,required: true},
+		path: {type: String, required: true}
+});
+
+var fileModel = mongoose.model('File', fileSchema);
+
 //---------------- Exports
 module.exports = {
     User: userModel,
 	Class : classModel,
 	Student : studentModel,
 	Teacher : teacherModel,
-	Course : courseModel
+	Course : courseModel,
+	File:fileModel
 };

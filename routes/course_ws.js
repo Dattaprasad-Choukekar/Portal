@@ -17,7 +17,14 @@ var teacherDipslayFields = {
 
 router.get('/Courses',  function(req, res) {
  console.log(req.body);
-  models.Course.find().populate(studentDipslayFields).populate(teacherDipslayFields)
+ var filterParams = {};
+ if (req.user.role == 'TR') {
+	filterParams = { teacher : req.user._id};
+ } else if (req.user.role == 'ST') {
+	//filterParams = { students : { $in: [req.user._id] }};
+	// TODO 
+ }
+  models.Course.find(filterParams).populate(teacherDipslayFields).populate('classes')
   .exec(function (err, classes) {
     if (err) {
 		 console.log(err);
@@ -45,6 +52,13 @@ router.post('/Courses', authoriseIsAdmin, function(req, res) {
 		errorMsg = 'teacher mandatory and non empty';
 	 } else if (!isBlank(req.body.teacher) && !mongoose.Types.ObjectId.isValid(req.body.teacher)) {
 		errorMsg = 'teacher id not valid';
+	}else if (req.body.classes) {
+	     for (var id in req.body.classes) {
+			 if (!mongoose.Types.ObjectId.isValid(req.body.classes[id])) {
+				errorMsg = 'class id not valid';
+				break;
+			 }
+		 }
 	}
  
 	 if (errorMsg) {
@@ -69,7 +83,7 @@ router.get('/Courses/:id', function(req, res) {
 		res.status(400).send('id not valid');
 		return;
 	}
-	models.Course.findById(req.params.id).populate(studentDipslayFields).populate(teacherDipslayFields)
+	models.Course.findById(req.params.id).populate('classes').populate(teacherDipslayFields)
 	.exec(function (err, post) {
 		if (err) {
 			console.log(err);
@@ -86,7 +100,7 @@ router.get('/Courses/:id', function(req, res) {
 
 router.put('/Courses/:id', authoriseIsAdmin, function(req, res) {
 	
-	var errorMsg;
+	var errorMsg = null;
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).send('id not valid');
 		return;
@@ -97,7 +111,15 @@ router.put('/Courses/:id', authoriseIsAdmin, function(req, res) {
 			console.log(req.body.teacher);
 			errorMsg = 'teacher id not valid';
 		}
-	 }
+	 } 
+	 if (!errorMsg && req.body.classes) {
+	     for (var id in req.body.classes) {
+			 if (!mongoose.Types.ObjectId.isValid(req.body.classes[id])) {
+				errorMsg = 'class id not valid';
+				break;
+			 }
+		 }
+	}
 	 if (errorMsg) {
 		 console.log(errorMsg);
 		 res.status(400).send(errorMsg);
