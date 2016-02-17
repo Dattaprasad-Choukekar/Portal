@@ -110,7 +110,13 @@ app.service("StudentCrudService", function ($http) {
 		*/
     };
 	
-
-	
-	
+app.service("CoursePageService", function ($http) {
+	this.uploadFile = function () {
+        var response = $http({
+            method: "post",
+            url: "/api/upload",
+            data: JSON.stringify(classVar)
+        });
+        return response;
+    };
 });

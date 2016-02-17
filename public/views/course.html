@@ -1,0 +1,60 @@
+    <h2 class="sub-header">Course</h2> 
+		<div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>Name</b></td>
+				<td><b>Classes</b></td>
+            </tr>
+            <tr>
+                <td>
+                    {{course._id}}
+                </td>
+                <td>
+                    {{course.name}}
+                </td>
+				<td>
+				 <span ng-repeat="class in course.classes">
+				 
+                    {{class.name}}
+					</span>
+                </td>
+                <td>
+                    <span ng-click="showCoursePage(course);" class="btn btn-primary">View Course Page</span>
+                  
+                </td>
+            </tr>
+        </table>
+    </div>
+	
+	<div ng-show='errorMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>
+	
+	<div ng-show='showFilesSection' >
+		<form method="post" enctype="multipart/form-data" action="/api/upload"/>
+		 <table class="table">
+            <tr>
+                <td><b><i>Upload File</i></b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> 
+            <tr>
+                <td><b>File *</b></td>
+                <td>
+                    <input type="file" name="file" />
+                </td>
+            </tr>           
+            <tr>
+                <td></td>
+                <td >
+                    <input type="submit" class="btn btn-default" value="Update" />
+                
+                </td>
+            </tr>
+        </table>  
+		</form >
+	</div>
+	
+	

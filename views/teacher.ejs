@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+<% include partials/head.html %>
+<title><%=title %></title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+ <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+</head>
+
+<body ng-app="TeacherPageApp">
+
+<% include partials/top.html %>
+<% include teacher_sidebar.html %>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div ng-controller="TeacherCtrl">
+<div ng-view></div>
+
+</div>
+</div>
+</div>
+
+<script >
+var app = angular.module("TeacherPageApp", ['ngRoute']);
+
+app.config(function($routeProvider) {
+		
+        $routeProvider
+            .when('/', {
+                templateUrl : 'views/my_courses.html',
+                controller  : 'TeacherCtrl'
+            }).when('/course', {
+                templateUrl : 'views/course.html',
+                controller  : 'CourseCtrl'
+            }).when('/my_courses', {
+                templateUrl : 'views/my_courses.html',
+                controller  : 'TeacherCtrl'
+            });
+			
+			
+    });
+	
+	
+	
+</script >
+<script src="js/angular/services.js"></script>
+<script src="js/angular/controllers.js"></script>
+<script src="http://vitalets.github.io/checklist-model/checklist-model.js"></script>
+
+
+<% include partials/bottom.html %>
+</body>
+</html>

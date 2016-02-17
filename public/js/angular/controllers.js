@@ -297,3 +297,55 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
 	
 	
 });
+
+
+
+
+app.controller("TeacherCtrl", function ($scope, $rootScope,$http, $location) {
+	$scope.errorMessage = "";
+	GetAllCourses();
+	
+	
+    //To Get all user records  
+    function GetAllCourses() {
+		$http.get("/api/Courses").then(function (courses) {
+			console.log(courses);
+            $scope.courses = courses.data;
+        }, function (data) {
+            console.error('Error in getting Courses :' + data.data);
+			$scope.errorMessage = 'Error in getting Courses';
+        });
+
+    }
+	
+	$scope.showCoursePage =  function (course) {
+	  
+       $http({method: "get", url: "/api/Courses/" + course._id })
+        .then(function (data) {
+            $rootScope.currentCourse = data.data;
+			$location.path('course');
+        }, function (data) {
+            console.error('Error in getting Course with id :'+ course._id  + data.data);
+			$scope.errorMessage = 'Error in getting Course'+ course._id;
+        });
+    
+	};
+	
+});
+
+app.controller("CourseCtrl", function ($scope,$rootScope, $http, $location) {
+	$scope.errorMessage = "";
+	$scope.successMessage = "";
+	$scope.showFilesSection = true;
+	if (!$rootScope.currentCourse) {
+		return $location.path('/');
+	}
+	$scope.course = $rootScope.currentCourse;
+	
+	
+	$scope.uploadFile =  function () {
+		$scope.successMessage = "";
+	}
+	
+	
+});

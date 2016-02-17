@@ -1,0 +1,33 @@
+    <h2 class="sub-header">List of Courses</h2> 
+		<div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>Name</b></td>
+                <td><b>Class</b></td>
+				<td><b>Students</b></td>
+            </tr>
+            <tr ng-repeat="course in courses">
+                <td>
+                    {{course._id}}
+                </td>
+                <td>
+                    {{course.name}}
+                </td>
+				<td>
+				 <span ng-repeat="class in course.classes">
+				 
+                    {{class.name}}
+					</span>
+                </td>
+                <td>
+                    <span ng-click="showCoursePage(course);" class="btn btn-primary">View Course Page</span>
+                  
+                </td>
+            </tr>
+        </table>
+    </div>
+	
+	<div ng-show='errorMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>

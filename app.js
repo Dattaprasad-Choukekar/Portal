@@ -4,12 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multer = require('multer');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var class_ws = require('./routes/class_ws');
 var students_ws = require('./routes/students_ws');
 var course_ws = require('./routes/course_ws');
+var files_ws = require('./routes/files_ws');
+
 
 //Authentication Dependency
 var session  = require('express-session');
@@ -57,6 +60,9 @@ app.use('/api', users);
 app.use('/api', class_ws);
 app.use('/api', students_ws);
 app.use('/api', course_ws);
+app.use('/api', files_ws);
+
+
 
 
 // catch 404 and forward to error handler
