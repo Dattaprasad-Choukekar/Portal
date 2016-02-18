@@ -1,0 +1,75 @@
+<style>
+	.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+</style>
+<div ng-init="init()">
+	<div class="sub-header clearfix">
+		<h2 class="pull-left">{{Heading}}</h2>
+		<button type="button" ng-click="AddCourseDiv()" class="btn btn-info pull-right" ng-show="ActionBtn">{{Action}} Course</button>
+	</div>
+		<div  ng-show="divList" class="table-responsive animate-show">
+        <table class="table table-striped">
+            <tr>
+				<th>Course Name</th>
+				<th>Teacher Name</th>
+				<th>Classes</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="course in courses">
+              
+                <td>
+                    {{course.name}}
+                </td>
+				<td>
+                    {{course.teacher.firstName}}&nbsp;{{course.teacher.lastName | uppercase }}
+                </td>
+				<td>
+                    <ul><li ng-repeat="class in course.classes">{{class.name}}</li></ul>
+                </td>
+                <td>
+                    <span ng-click="editCourse(course)" class="btn btn-primary">Edit</span>
+                    <span ng-click="deleteCourse(course)" class="btn btn-danger">Delete</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+	
+	   
+    <div ng-show="divAction" class="animate-show">
+        <p class="divHead"></p>
+        <table class="table">
+            <tr>
+                <td><strong>Course Name *</strong></td>				
+                <td>
+                    <input type="text" ng-model="coursename" />
+                </td>
+            </tr>
+			
+			<tr>
+                <td><strong>Select Teacher *</strong></td>				
+                <td>
+					<select style="min-width: 200px;" ng-model="teachername" ng-options="teacher._id as teacher.firstName + ' '+teacher.lastName  for teacher in teachers | filter:{role: 'TR'}">
+					<option value="">--Select Teacher--</option></select>
+                </td>
+            </tr> 
+			
+			<tr>
+				<td><strong>Select Classes</strong></td>
+                <td><select multiple size="5" style="min-width: 200px;" ng-model="previous_selection" ng-options="class._id as class.name for class in classes">
+				</select><br><span class="errorMessage">Ctrl+Click for multiple selection<span></td>
+            </tr>
+			
+            
+            <tr>
+                <td colspan="2">
+                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateUser()" />
+                    <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+                </td>
+            </tr>
+        </table>        
+    </div>
+	<div ng-show='divErrMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>
+</div>

@@ -1,4 +1,4 @@
-
+app.controller(controllers); //Includes all the controllers
 app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 	$scope.roles = ['AD', 'ST', 'TR'];
 	$scope.sexes = ['M', 'F', 'O'];
@@ -117,7 +117,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 	
 });
 
-
+//Class - Controller
 app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCrudService) {
 	$scope.errorMessage = '';
     $scope.divAddElement = false;

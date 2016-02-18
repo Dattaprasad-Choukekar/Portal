@@ -139,3 +139,45 @@ app.service("CoursePageService", function ($http) {
         return response;
 	}
 });
+//Services for the Courses
+app.service("CourseCrudService", function ($http) {
+
+    this.getAllCourses = function () {
+        return $http.get("/api/Courses");
+    };
+	
+	this.addCourse = function (course_var) {
+			console.log(JSON.stringify(course_var));
+        var response = $http({
+            method: "post",
+            url: "/api/Courses",
+            data: JSON.stringify(course_var)
+        });
+        return response;
+    };
+	
+	    this.deleteCourse = function (course_id) {
+        var response = $http({
+            method: "delete",
+            url: "/api/Courses/" + course_id
+        });
+        return response;
+    };
+	
+		this.updateCourse = function (course_var) {
+        var response = $http({
+            method: "put",
+            url: "/api/Courses/" + course_var.id,
+            data: JSON.stringify(course_var)
+        });
+        return response;
+    };
+	
+	this.GetCourse = function (course_id) {
+        var response = $http({
+            method: "get",
+            url: "/api/Courses/" + course_id
+        });
+        return response;
+    };
+});
