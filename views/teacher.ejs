@@ -19,30 +19,7 @@
 </div>
 </div>
 </div>
-
-<script >
-var app = angular.module("TeacherPageApp", ['ngRoute']);
-
-app.config(function($routeProvider) {
-		
-        $routeProvider
-            .when('/', {
-                templateUrl : 'views/my_courses.html',
-                controller  : 'TeacherCtrl'
-            }).when('/course', {
-                templateUrl : 'views/course.html',
-                controller  : 'CourseCtrl'
-            }).when('/my_courses', {
-                templateUrl : 'views/my_courses.html',
-                controller  : 'TeacherCtrl'
-            });
-			
-			
-    });
-	
-	
-	
-</script >
+<script src="js/angular/configurations/teacher.js"></script>
 <script src="js/angular/services.js"></script>
 <script src="js/angular/controllers.js"></script>
 <script src="http://vitalets.github.io/checklist-model/checklist-model.js"></script>
