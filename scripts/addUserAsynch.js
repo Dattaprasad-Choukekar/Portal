@@ -80,40 +80,37 @@ function addAdminUser(callback) {
 
 
 function addTeacher(callback) {
-	var newTeacher = new models.Teacher();
-	newTeacher.username = 'tchr1';
-	newTeacher.password = 'tchr1';
-	newTeacher.role = 'TR';
-	newTeacher.firstName = 'tchr1 Name';
-	newTeacher.lastName = 'tchr1 Last Name';
-	newTeacher.email = 'Email';
-
-	// save the user
-	newTeacher.save(function(err) {
-		if (err) {
-			console.log(err);
-			callback(err);
-		}
-		var newTeacher = new models.Teacher();
-		newTeacher.username = 'tchr2';
-		newTeacher.password = 'tchr2';
-		newTeacher.role = 'TR';
-		newTeacher.firstName = 'tchr2 Name';
-		newTeacher.lastName = 'tchr2 Last Name';
-		newTeacher.email = 'Email';
-		newTeacher.save(function(err, data) {
-			if (err) {
-				console.log(err);
-				callback(err);
-			}
-			teacherId = data._id;
-			console.log('Added Teacher '  + newTeacher.username + ':' + newTeacher.password);
-			callback(null);
-		});
-		
-		}
+	var teacherArr = [];
 	
-);
+	for(var i=0; i<3;i++) {
+		var newTeacher = new models.Teacher();
+		newTeacher.username = 'tchr' + i;
+		newTeacher.password = 'tchr' + i;
+		newTeacher.role = 'TR';
+		newTeacher.firstName = 'Teacher ' + i;
+		newTeacher.lastName = 'Teacher ' + i;
+		newTeacher.email = 'Email';
+		teacherArr.push(newTeacher);
+	}
+	
+	async.map(teacherArr, function(newTeacher, callback){
+		newTeacher.save(
+			function saveTeacher(err, newTeacher) {
+				if (err) {
+					console.log(err);
+					callback(err);
+				}
+				teacherId = newTeacher._id;
+				console.log('Added Teacher '  + newTeacher.username);
+				callback();
+			}
+		);
+	
+	}, function(err, results){
+		if (err) callback(err);
+		callback();
+	});
+
 };
 
 
@@ -134,7 +131,6 @@ function addStudents(callback) {
 		// save the user
 		//newUser.save(saveUserFunc);
 		usersArr.push(newUser);
-		console.log(classRef.name);
 	}
 	
 	async.eachSeries(usersArr, function iterator(student, done) {
@@ -143,7 +139,7 @@ function addStudents(callback) {
 		if (err) {
 			done(err);
 		} else {
-			console.log('Added student!' + student.username);
+			console.log('Added student ' + student.username);
 			done();
 		}
 	});
@@ -156,49 +152,44 @@ function addStudents(callback) {
 };
 
 function addClass(callback) {
-	
-models.Student.find({},function fun(err, data){
-	
-		var studentIdArr = [];
-		console.log(data);
-		for (var index in data) {
-			//console.log(student);
-			studentIdArr.push(data[index]._id);
-		}
-		var newClass = new models.Class();
+
+	models.Student.find({},function fun(err, data){
+	var studentIdArr = [];
+			
+	for (var index in data) {
+		//console.log(student);
+		studentIdArr.push(data[index]._id);
+	}
+	var newClass = new models.Class();
 	newClass.name = 'cl1';
 	studentIdArr.splice(5,5);
 	newClass.students = studentIdArr;
-	// save the user
 	newClass.save(function(err, classVar) {
-	  if (err) {
-	   console.log(err);
-	   callback(err);
-	  }
-	   classId = classVar._id;
-	   console.log('Added class ');
-	   
-	models.Student.update({
-    '_id': { $in: studentIdArr}
- }, {  classRef : classVar._id}, { multi: true }, function (err, raw) {
-  if (err)  {
-	  console.log('Error while updating classRef of student  model', err);
-	  callback(err);
-  } else {
-	  console.log('Updated students');
-	   console.log(raw);
-	 callback();
-	  
-  }
+		  if (err) {
+		   console.log(err);
+		   callback(err);
+		  }
+		   classId = classVar._id;
+		   console.log('Added class ' +  classVar.name);
+		  models.Student.update({'_id': { $in: studentIdArr} }, 
+		  {  classRef : classVar._id}, { multi: true }, function (err, raw) {
+			if (err)  {
+				console.log('Error while updating classRef of student  model', err);
+				callback(err);
+			} else {
+				console.log('Updated students');
+				console.log(raw);
+				callback();
+			}
 
-});
-	   
-	  
-	});
-	});
-	
+		});
+		   
+		  
+		});
+		});
+		
 
-};
+	};
 
 
 

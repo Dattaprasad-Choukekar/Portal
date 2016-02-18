@@ -13,6 +13,9 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
+					<% if (req.user.role == 'AD') {%>
+						<li><a href="/admin">Admin Home</a></li>
+					<% }%>
 					<li><a><%=req.user.username %> : <%=req.user.role %></a></li>
 					<li><a href="/logout">Logout</a></li>
 				</ul> 

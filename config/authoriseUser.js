@@ -1,11 +1,18 @@
 var authorize = {};
 
-authorize.authoriseIsAdmin = function(req, res, next) {
-	 console.log(req.user.role == 'AD');
+authorize.checkIsAdmin = function(req, res, next) {
 	if (!(req.user.role == 'AD')) {
-		 res.status(400).send("Unauthorised");
+		 res.redirect("/");
 	} else {
 		next();
+	}
+};
+
+authorize.checkIsAdminOrTeacher = function(req, res, next) {
+	if ((req.user.role == 'AD') || (req.user.role == 'TR')) {
+		 next();
+	} else {
+		res.redirect("/");
 	}
 };
 
