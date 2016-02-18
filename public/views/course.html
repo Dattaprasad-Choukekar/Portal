@@ -1,99 +1,143 @@
     
-	<div ng-controller="CourseCtrl"><h2 class="sub-header">Course</h2> 
-		<div class="table-responsive">
-        <table class="table table-striped">
-            <tr>
-               <!-- <td><b>ID</b></td> -->
-                <td><b>Name</b></td>
-				<td><b>Classes</b></td>
-            </tr>
-            <tr><!--
+<div ng-controller="CourseCtrl">
+	<h2 class="sub-header">Course</h2> 
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<tr>
+				<!-- <td><b>ID</b></td> -->
+				<td>
+					<b>Name</b>
+				</td>
+				<td>
+					<b>Classes</b>
+				</td>
+			</tr>
+			<tr>
+				<!--
                 <td>
                     {{course._id}}
                 </td>
 				-->
-                <td>
-                    {{course.name}}
-                </td>
 				<td>
-				 <span ng-repeat="class in course.classes">
+                    {{course.name}}
+				</td>
+				<td>
+					<span ng-repeat="class in course.classes">
                     {{class.name}}
 					</span>
-                </td>
-            </tr>
-        </table>
-    </div>
-	<div> <span  ng-click ="showFilesSection=!showFilesSection" class="btn btn-primary"><span ng-show="showFilesSection">Hide File Section</span><span ng-hide="showFilesSection">Show File Section</span></span></div>
-	<div id="fileSection" ng-show="showFilesSection">
-	<h2 class="sub-header">Files</h2> 
-		<div class="table-responsive">
-        <table class="table table-striped">
-            <tr >
-                <td><b>ID</b></td>
-                <td><b>File Name</b></td>
-				<td><b>Size</b></td>
-				<td><b>Uploaded by</b></td>
-				<td><b>Download</b></td>
-				<td><b>Delete</b></td>
-            </tr>
-            <tr ng-repeat="file in files">
-                <td>
-                    {{file._id}}
-                </td>
-                <td>
-                    {{file.originalname}}
-                </td>
-				<td>
-                    {{file.size}}
-                </td>
-				<td>
-                    {{file.ownerId.firstName}} {{file.ownerId.lastName}}
-                </td>
-                <td><a href="/api/Courses/{{course._id}}/files/{{file._id}}">
-                    <span  class="btn btn-primary">Download</span>
-					</a>
-                  
-                </td>
-				
-				  <td>
-                    <span ng-click="deleteFile(file)" class="btn btn-primary">Delete</span>
-                  
-                </td>
-            </tr>
-        </table>
-    </div>
-	
+				</td>
+			</tr>
+		</table>
+	</div>
 
-	
-	<div ng-show='showFilesSection' >
-		<form method="post" enctype="multipart/form-data" action="{{formActionPath}}"/>
-		 <table class="table">
-            <tr>
-                <td><h2 class="sub-header">Upload File</h2> </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr> 
-            <tr>
-                <td><b>File *</b></td>
-                <td>
-                    <input type="file" name="file" />
-                </td>
-            </tr>           
-            <tr>
-                <td></td>
-                <td >
-                    <input ng-model="file" type="submit" ng-click="refreshFilesList()" class="btn btn-default" value="Update" />
-                
-                </td>
-            </tr>
-        </table>  
-		</form >
-	</div>
-	</div>
-	</div>
-	
-	<div ng-show='errorMessage'  class="alert alert-warning">
-		<strong>{{errorMessage}}</strong> 
-	</div>
-	
+</div>
+</div>
+
+
+<div class="tabsdemoDynamicHeight" ng-cloak="">
+	<md-content>
+		<md-tabs md-dynamic-height="" md-border-bottom="">
+			<md-tab label="Files">
+				<md-content class="md-padding">
+					<div id="fileSection" ng-show="showFilesSection">
+						<h2 class="sub-header">Files</h2> 
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<tr >
+									<td>
+										<b>ID</b>
+									</td>
+									<td>
+										<b>File Name</b>
+									</td>
+									<td>
+										<b>Size</b>
+									</td>
+									<td>
+										<b>Uploaded by</b>
+									</td>
+									<td>
+										<b>Download</b>
+									</td>
+									<td>
+										<b>Delete</b>
+									</td>
+								</tr>
+								<tr ng-repeat="file in files">
+									<td>
+                    {{file._id}}
+									</td>
+									<td>
+                    {{file.originalname}}
+									</td>
+									<td>
+                    {{file.size}}
+									</td>
+									<td>
+                    {{file.ownerId.firstName}} {{file.ownerId.lastName}}
+									</td>
+									<td>
+										<a href="/api/Courses/{{course._id}}/files/{{file._id}}">
+											<span  class="btn btn-primary">Download</span>
+										</a>
+
+									</td>
+
+									<td>
+										<span ng-click="deleteFile(file)" class="btn btn-primary">Delete</span>
+
+									</td>
+								</tr>
+							</table>
+						</div>
+
+
+
+						<div ng-show='showFilesSection' >
+							<form method="post" enctype="multipart/form-data" action="{{formActionPath}}"/>
+							<table class="table">
+								<tr>
+									<td>
+										<h2 class="sub-header">Upload File</h2>
+									</td>
+									<td/>
+									<td/>
+									<td/>
+								</tr> 
+								<tr>
+									<td>
+										<b>File *</b>
+									</td>
+									<td>
+										<input type="file" name="file" />
+									</td>
+								</tr>           
+								<tr>
+									<td/>
+									<td >
+										<input ng-model="file" type="submit" ng-click="refreshFilesList()" class="btn btn-default" value="Update" />
+
+									</td>
+								</tr>
+							</table>  
+						</form >
+					</div>
+
+				</md-content>
+			</md-tab>
+			<md-tab label="Messages">
+				<md-content class="md-padding">
+					<h1 class="md-display-2">Tab Two</h1>
+					<p>Lore.</p>
+				</md-content>
+			</md-tab>
+
+		</md-tabs>
+	</md-content>
+</div>
+
+
+
+<div ng-show='divErrorMessage'  class="alert alert-warning">
+	<strong>{{errorMessage}}</strong> 
+</div>

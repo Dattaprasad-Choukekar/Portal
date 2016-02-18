@@ -1,4 +1,4 @@
-var app = angular.module("TeacherPageApp", ['ngRoute']);
+var app = angular.module("TeacherPageApp", ['ngMaterial', 'ngRoute']);
 
 app.config(function($routeProvider) {
 		
