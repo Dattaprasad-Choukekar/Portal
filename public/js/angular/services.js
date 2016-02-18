@@ -109,8 +109,10 @@ app.service("StudentCrudService", function ($http) {
 		});
 		*/
     };
+});
 	
 app.service("CoursePageService", function ($http) {
+/*
 	this.uploadFile = function () {
         var response = $http({
             method: "post",
@@ -118,5 +120,22 @@ app.service("CoursePageService", function ($http) {
             data: JSON.stringify(classVar)
         });
         return response;
-    };
+    }; */
+	
+	
+	this.getCourseFiles =  function (courseId) {
+		var response = $http({
+            method: "get",
+            url: "/api/Courses/" + courseId + "/files"
+        });
+        return response;
+	}
+	
+	this.deleteCourseFile =  function (courseId, fileID) {
+		var response = $http({
+            method: "delete",
+            url: "/api/Courses/" + courseId + "/files/" + fileID
+        });
+        return response;
+	}
 });

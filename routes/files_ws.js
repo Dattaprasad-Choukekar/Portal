@@ -8,9 +8,17 @@ var models = require('../models/models.js');
 var async = require('async');
 
 var multer = require('multer');
-var uploading = multer({
-  dest: __dirname + '\\..\\uploads\\',
-});
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, __dirname + '\\..\\uploads\\');
+  },
+  filename: function (req, file, cb) {
+    cb(null, + Date.now() + '-'  + file.originalname );
+  }
+})
+
+var uploading = multer({ storage: storage });
 
 router.get('/Courses/:id/files',  function(req, res) {
 
@@ -23,6 +31,7 @@ router.get('/Courses/:id/files',  function(req, res) {
 	models.Course.find({_id:req.params.id}).exec(
 		function (err, data) {
 			if (err) {
+				console.log(err);
 				return res.status(500).send(err);
 			}
 			var errorMsg = "";
@@ -36,13 +45,15 @@ router.get('/Courses/:id/files',  function(req, res) {
 				 return 
 			}
 			
-			models.File.find({}, function(err, data){
-				if (err) {
-					return res.status(500).send(err);
+			models.File.find({}).populate('ownerId').exec(
+				function(err, data){
+					if (err) {
+						console.log(err);
+						return res.status(500).send(err);
+					}
+					res.json(data);
 				}
-				res.json(data);
-			
-			});
+			);
 		}
 	);
 
@@ -66,7 +77,7 @@ router.post('/Courses/:id/files', uploading.single('file'), function(req, res) {
 	models.Course.find({_id:req.params.id}).exec(
 		function (err, data) {
 			if (err) {
-				
+				console.log(err);
 				if (req.file) deleteFile(req.file.path);
 				return res.status(500).send(err);
 			}
@@ -85,8 +96,10 @@ router.post('/Courses/:id/files', uploading.single('file'), function(req, res) {
 			}
 			
 			var file = new models.File(req.file);
+			file.ownerId = req.user._id;
 			file.save(function (err, data) {
 				if (err) {
+					console.log(err);
 					if (req.file) deleteFile(req.file.path);
 					return res.status(500).send('Unable to save files');
 				}
@@ -112,6 +125,7 @@ router.delete('/Courses/:id/files/:fileId', function(req, res) {
 	models.Course.find({_id:req.params.id}).exec(
 		function (err, data) {
 			if (err) {
+				console.log(err);
 				return res.status(500).send(err);
 			}
 			if (data.length == 0) {
@@ -124,6 +138,7 @@ router.delete('/Courses/:id/files/:fileId', function(req, res) {
 			}	
 			models.File.findById(req.params.fileId, function (err, found) {
 				if (err) {
+					console.log(err);	
 					return res.status(500).send(err);
 				}
 				if (!found) {
@@ -132,8 +147,10 @@ router.delete('/Courses/:id/files/:fileId', function(req, res) {
 				
 				found.remove(function (err, data) {
 					if (err) {
+						console.log(err);
 						return res.status(500).send(err);
 					}
+					deleteFile(data.path);
 					res.status(204).end();
 				});
 			});
@@ -154,6 +171,7 @@ router.get('/Courses/:id/files/:fileId', function(req, res) {
 	models.Course.find({_id:req.params.id}).exec(
 		function (err, data) {
 			if (err) {
+				console.log(err);
 				return res.status(500).send(err);
 			}
 			if (data.length == 0) {
@@ -166,12 +184,15 @@ router.get('/Courses/:id/files/:fileId', function(req, res) {
 			}	
 			models.File.findById(req.params.fileId, function (err, found) {
 				if (err) {
+					console.log(err);
 					return res.status(500).send(err);
 				}
 				if (!found) {
 					return res.status(500).send('file with id does not exist' + req.params.fileId);
 				}
-				return res.json(found);
+
+				 res.download(found.path, found.originalname);
+
 			});
 		}
 	);

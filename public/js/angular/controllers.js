@@ -333,7 +333,7 @@ app.controller("TeacherCtrl", function ($scope, $rootScope,$http, $location) {
 	
 });
 
-app.controller("CourseCtrl", function ($scope,$rootScope, $http, $location) {
+app.controller("CourseCtrl", function ($scope,$rootScope,$timeout, $http, $location, CoursePageService) {
 	$scope.errorMessage = "";
 	$scope.successMessage = "";
 	$scope.showFilesSection = true;
@@ -341,11 +341,42 @@ app.controller("CourseCtrl", function ($scope,$rootScope, $http, $location) {
 		return $location.path('/');
 	}
 	$scope.course = $rootScope.currentCourse;
+	$scope.formActionPath = "/api/courses/" + $scope.course._id + "/files";
 	
+	getCourseFiles($scope.course._id) ;
+	function getCourseFiles(courseId) {
 	
-	$scope.uploadFile =  function () {
-		$scope.successMessage = "";
-	}
+		var getCourseFilesData = CoursePageService.getCourseFiles(courseId);
+            getCourseFilesData.then(function (msg) {
+				$scope.files = msg.data;
+				
+				console.log(msg.data);
+            }, function (data) {
+               console.error('Error in getting course files : ' + data.data);
+			   $scope.errorMessage = 'Error in getting course files :';
+            });
+	};
 	
+	$scope.refreshFilesList = function () {
+		 $timeout(function() {
+				getCourseFiles($scope.course._id) ;
+				if (!($scope.$$phase)) { // most of the time it is "$digest"
+					$scope.$apply();
+				} 
+			}, 500);
+		
+	};
 	
+	$scope.deleteFile = function (file) {
+		var deleteCourseFilesData = CoursePageService.deleteCourseFile($scope.course._id, file._id);
+		deleteCourseFilesData.then(function (msg) {
+			console.log('deleted file');
+			$scope.refreshFilesList();
+		}, function (data) {
+		   console.error('Error in deleting file : ' + data.data);
+		   $scope.errorMessage = 'Error in deleting file';
+		});
+	};
+	
+
 });

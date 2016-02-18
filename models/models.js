@@ -105,7 +105,8 @@ var fileSchema = mongoose.Schema({
 		filename: {type: String, unique:true, required: true},
 		size	: {type: Number, trim: true, required: true},
 		destination: {type: String,required: true},
-		path: {type: String, required: true}
+		path: {type: String, required: true},
+		ownerId: { type: mongoose.Schema.ObjectId, ref: 'User', required : true}
 });
 
 var fileModel = mongoose.model('File', fileSchema);
