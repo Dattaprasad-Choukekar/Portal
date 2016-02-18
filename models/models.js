@@ -111,6 +111,16 @@ var fileSchema = mongoose.Schema({
 
 var fileModel = mongoose.model('File', fileSchema);
 
+
+//---------------- Message Schema
+var messageSchema = mongoose.Schema({ 
+		content: {type: String, trim: true, required: true},
+		date: { type: Date, default: Date.now },
+		ownerId: { type: mongoose.Schema.ObjectId, ref: 'User', required : true}
+});
+
+var messageModel = mongoose.model('Message', messageSchema);
+
 //---------------- Exports
 module.exports = {
     User: userModel,
@@ -118,5 +128,6 @@ module.exports = {
 	Student : studentModel,
 	Teacher : teacherModel,
 	Course : courseModel,
-	File:fileModel
+	File:fileModel,
+	Message:messageModel
 };
