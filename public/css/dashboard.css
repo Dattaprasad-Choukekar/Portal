@@ -104,7 +104,7 @@ body {
   border-radius: 50%;
 }
 
-
+/* ******** Tabs **** */
 .tabsdemoDynamicHeight md-content {
   background-color: transparent !important; }
   .tabsdemoDynamicHeight md-content md-tabs {
@@ -114,3 +114,28 @@ body {
       background: white; }
   .tabsdemoDynamicHeight md-content h1:first-child {
     margin-top: 0; }
+	
+/* **** List ********/
+.virtualRepeatdemoDeferredLoading #vertical-container {
+  min-height: 20px;
+  min-width: 40px; }
+
+.virtualRepeatdemoDeferredLoading .repeated-item {
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  height: 40px;
+  padding-top: 10px; }
+
+.virtualRepeatdemoDeferredLoading md-content {
+  margin: 16px; }
+
+.virtualRepeatdemoDeferredLoading md-virtual-repeat-container {
+  /* border: solid 1px grey; */ }
+
+.virtualRepeatdemoDeferredLoading .md-virtual-repeat-container .md-virtual-repeat-offsetter div {
+  padding-left: 16px; }
+  
+  
+ .animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.5s;
+}

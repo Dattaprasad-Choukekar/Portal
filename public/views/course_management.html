@@ -1,8 +1,3 @@
-<style>
-	.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
-  transition: all linear 0.5s;
-}
-</style>
 <div ng-init="init()">
 	<div class="sub-header clearfix">
 		<h2 class="pull-left">{{Heading}}</h2>
@@ -25,7 +20,15 @@
                     {{course.teacher.firstName}}&nbsp;{{course.teacher.lastName | uppercase }}
                 </td>
 				<td>
-                    <ul><li ng-repeat="class in course.classes">{{class.name}}</li></ul>
+                    <div  class="virtualRepeatdemoDeferredLoading" ng-cloak="">
+					  <md-content layout="column">
+						<md-virtual-repeat-container id="vertical-container">
+						  <div ng-repeat="class in course.classes" md-on-demand="" class="repeated-item" flex="">
+							{{class.name}}
+						  </div>
+						</md-virtual-repeat-container>
+					  </md-content>
+					</div>
                 </td>
                 <td>
                     <span ng-click="editCourse(course)" class="btn btn-primary">Edit</span>

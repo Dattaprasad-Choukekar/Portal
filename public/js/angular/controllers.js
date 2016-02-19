@@ -303,6 +303,9 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
 
 app.controller("TeacherCtrl", function ($scope, $rootScope,$http, $location) {
 	$scope.errorMessage = "";
+	$scope.totalItems = 0;
+	$scope.currentPage = 1;
+	$scope.numPerPage = 5;
 	GetAllCourses();
 	
 	
@@ -310,7 +313,16 @@ app.controller("TeacherCtrl", function ($scope, $rootScope,$http, $location) {
     function GetAllCourses() {
 		$http.get("/api/Courses").then(function (courses) {
 			console.log(courses);
-            $scope.courses = courses.data;
+            $scope.courses = courses.data;			
+			$scope.totalItems = $scope.courses.length;
+			$scope.paginate = function(value) {
+				var begin, end, index;
+				begin = ($scope.currentPage - 1) * $scope.numPerPage;
+				end = begin + $scope.numPerPage;
+				index = $scope.courses.indexOf(value);
+				return (begin <= index && index < end);
+		  };
+		  
         }, function (data) {
             console.error('Error in getting Courses :' + data.data);
 			$scope.errorMessage = 'Error in getting Courses';
@@ -336,6 +348,9 @@ app.controller("TeacherCtrl", function ($scope, $rootScope,$http, $location) {
 app.controller("CourseCtrl", function ($scope,$rootScope,$timeout, $http, $location, CoursePageService) {
 	$scope.errorMessage = "";
 	$scope.successMessage = "";
+	$scope.totalItems = 0;
+	$scope.currentPage = 1;
+	$scope.numPerPage = 2;
 	$scope.showFilesSection = true;
 	if (!$rootScope.currentCourse) {
 		return $location.path('/');
@@ -349,8 +364,14 @@ app.controller("CourseCtrl", function ($scope,$rootScope,$timeout, $http, $locat
 		var getCourseFilesData = CoursePageService.getCourseFiles(courseId);
             getCourseFilesData.then(function (msg) {
 				$scope.files = msg.data;
-				
-				console.log(msg.data);
+				$scope.totalItems = $scope.files.length;
+				$scope.paginate = function(value) {
+				var begin, end, index;
+				begin = ($scope.currentPage - 1) * $scope.numPerPage;
+				end = begin + $scope.numPerPage;
+				index = $scope.files.indexOf(value);
+				return (begin <= index && index < end);
+		  };
             }, function (data) {
                console.error('Error in getting course files : ' + data.data);
 			   $scope.errorMessage = 'Error in getting course files :';
