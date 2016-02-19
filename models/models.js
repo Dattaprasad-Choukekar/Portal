@@ -121,6 +121,18 @@ var messageSchema = mongoose.Schema({
 
 var messageModel = mongoose.model('Message', messageSchema);
 
+//---------------- broadcast Schema
+var broadcastSchema = mongoose.Schema({
+		title: {type: String, trim: true, required: true},
+		content: {type: String, trim: true, required: true},
+		date: { type: Date, default: Date.now },
+		ownerId: { type: mongoose.Schema.ObjectId, ref: 'User', required : true},
+		classes: [{ type: mongoose.Schema.ObjectId, ref: 'Class'}]
+		
+});
+
+var broadcastModel = mongoose.model('Broadcast', broadcastSchema);
+
 //---------------- Exports
 module.exports = {
     User: userModel,
@@ -129,5 +141,6 @@ module.exports = {
 	Teacher : teacherModel,
 	Course : courseModel,
 	File:fileModel,
-	Message:messageModel
+	Message:messageModel,
+	Broadcast : broadcastModel
 };

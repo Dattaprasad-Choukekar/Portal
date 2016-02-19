@@ -164,7 +164,7 @@ router.delete('/Courses/:id/messages/:messageId', function(req, res) {
 				 return 
 			}	
 			
-			models.Message.findById(req.params.messageId, function (err, found) {
+			models.Message.findById(req.params.messageId).populate('ownerId').exec(function (err, found) {
 				if (err) {
 					console.log(err);	
 					return res.status(500).send(err);
@@ -173,6 +173,11 @@ router.delete('/Courses/:id/messages/:messageId', function(req, res) {
 					return res.status(500).send('message with id does not exist' + req.params.fileId);
 				}
 				
+				// Teacher can delete all messages 
+				// student can delete own messages
+				if (req.user.role == 'ST' && found.ownerId._id.toString() != req.user._id.toString()) {
+					return res.status(400).send('This message does not belong to requester');
+				}
 				found.remove(function (err, data) {
 					if (err) {
 						console.log(err);
@@ -196,6 +201,10 @@ router.put('/Courses/:id/messages/:messageId', function(req, res) {
 	if (!mongoose.Types.ObjectId.isValid(req.params.messageId)) {
 		return res.status(400).send('message id not valid!' + req.params.messageId);
 	} 
+	
+	if (isBlank(req.body.content)) {
+		return res.status(400).send('content is mandatory!');
+	}
 
 	models.Course.find({_id:req.params.id}).exec(
 		function (err, data) {
@@ -210,11 +219,13 @@ router.put('/Courses/:id/messages/:messageId', function(req, res) {
 				 console.log(errorMsg);
 				 res.status(400).send(errorMsg);
 				 return 
-			}	
+			}
+			/*
 			if (!req.body.ownerId) {
 				req.body.ownerId = req.user._id;
-			}
-			models.Message.findByIdAndUpdate(req.params.messageId, req.body, function (err, found) {
+			}*/
+			
+			models.Message.findById(req.params.messageId, function (err, found) {
 				if (err) {
 					console.log(err);	
 					return res.status(500).send(err);
@@ -222,7 +233,25 @@ router.put('/Courses/:id/messages/:messageId', function(req, res) {
 				if (!found) {
 					return res.status(500).send('message with id does not exist' + req.params.messageId);
 				}
-				res.status(204).end();
+							
+				// Teacher can update all messages 
+				// student can update own messages
+				if (req.user.role == 'ST' && found.ownerId.toString() != req.user._id.toString()) {
+					return res.status(400).send('This message does not belong to requester');
+				}
+				models.Message.findByIdAndUpdate(req.params.messageId, req.body, function (err, found){
+					if (err) {
+						console.log(err);	
+						return res.status(500).send(err);
+					}
+					if (!found) {
+						return res.status(500).send('message with id does not exist' + req.params.messageId);
+					}
+					console.log(req.body);
+					res.status(204).end();
+				}
+				);
+				
 			});
 	
 		}

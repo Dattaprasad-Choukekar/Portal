@@ -13,6 +13,7 @@ var students_ws = require('./routes/students_ws');
 var course_ws = require('./routes/course_ws');
 var files_ws = require('./routes/files_ws');
 var messages_ws = require('./routes/messages_ws');
+var broadcast_ws = require('./routes/broadcast_ws');
 
 
 //Authentication Dependency
@@ -63,6 +64,9 @@ app.use('/api', students_ws);
 app.use('/api', course_ws);
 app.use('/api', files_ws);
 app.use('/api', messages_ws);
+app.use('/api', broadcast_ws);
+
+
 
 
 

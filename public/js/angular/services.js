@@ -181,3 +181,49 @@ app.service("CourseCrudService", function ($http) {
         return response;
     };
 });
+
+
+
+app.service("MessageService", function ($http) {
+
+    
+    this.getAllMessages = function (course_id) {
+        return $http.get("/api/Courses/" + course_id + "/messages");
+    };
+	
+	 // Add User
+    this.addMessage = function (course_id, message) {
+        var response = $http({
+            method: "post",
+            url: "/api/Courses/"+ course_id + "/messages",
+            data: JSON.stringify(message)
+        });
+        return response;
+    };
+	
+	this.updateMessage = function (course_id, message_id, message) {
+        var response = $http({
+            method: "put",
+            url: "/api/Courses/" + course_id + "/messages/" +message_id ,
+            data: JSON.stringify(message)
+        });
+        return response;
+    };
+
+    this.deleteMessage = function (course_id, message_id) {
+        var response = $http({
+            method: "delete",
+            url: "/api/Courses/" + course_id + "/messages/" +message_id 
+        });
+        return response;
+    };
+	
+	this.getMessage = function (course_id, message_id) {
+        var response = $http({
+            method: "get",
+            url: "/api/Courses/" + course_id + "/messages/" +message_id
+        });
+        return response;
+    }
+	
+	});

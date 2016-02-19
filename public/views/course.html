@@ -1,34 +1,10 @@
     
 <div ng-controller="CourseCtrl">
-	<h2 class="sub-header">Course</h2> 
-	<div class="table-responsive">
-		<table class="table table-striped">
-			<tr>
-				<!-- <td><b>ID</b></td> -->
-				<td>
-					<b>Name</b>
-				</td>
-				<td>
-					<b>Classes</b>
-				</td>
-			</tr>
-			<tr>
-				<!--
-                <td>
-                    {{course._id}}
-                </td>
-				-->
-				<td>
-                    {{course.name}}
-				</td>
-				<td>
-					<span ng-repeat="class in course.classes">
+	<h2 class="sub-header">Course    :  {{course.name}}</h2>
+	<h3 class="sub-header">Classes   :<span ng-repeat="class in course.classes">
                     {{class.name}}
-					</span>
-				</td>
-			</tr>
-		</table>
-	</div>
+					</span></h3>	
+	
 
 </div>
 </div>
@@ -119,12 +95,13 @@
 				</md-tab>
 				<md-tab label="Messages">
 					<md-content class="md-padding">
-						<div ng-init="init()">
+						<div ng-controller="MessageCtrl" ng-init="init()">
 							<div class="sub-header clearfix">
 								<h2 class="pull-left">{{Heading}}</h2>
-								<button type="button" ng-click="AddCourseDiv()" class="btn btn-info pull-right" ng-show="ActionBtn">{{Action}} Course</button>
+								<button type="button" ng-click="init()" class="btn btn-info pull-right">Refresh</button>
+								<button type="button" ng-click="AddElementDiv()" class="btn btn-info pull-right" ng-show="ActionBtn">{{Action}} Message</button>
 							</div>
-							<div  ng-show="divList=true" class="table-responsive animate-show">
+							<div  ng-show="divList" class="table-responsive animate-show">
 								<table class="table table-striped">
 									<tr>
 										<th>Message</th>
@@ -144,15 +121,15 @@
 					{{message.ownerId.firstName}}&nbsp;{{message.ownerId.lastName | uppercase }}
 										</td>
 										<td>
-											<span ng-click="editMessage(course)" class="btn btn-primary">Edit</span>
-											<span ng-click="deleteMessage(course)" class="btn btn-danger">Delete</span>
+											<span ng-click="editElement(message)" class="btn btn-primary">Edit</span>
+											<span ng-click="deleteElement(message)" class="btn btn-danger">Delete</span>
 										</td>
 									</tr>
 								</table>
 							</div>
 
 
-							<div ng-show="divAction=true" class="animate-show">
+							<div ng-show="divAction" class="animate-show">
 								<p class="divHead"/>
 								<table class="table">
 									<tr>
@@ -163,6 +140,12 @@
 											<textarea ng-model="content"></textarea>
 										</td>
 									</tr>
+									   <tr>
+											<td colspan="2">
+												<input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateElement()" />
+												<input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+											</td>
+										</tr>
 								</table>        
 							</div>
 							<div ng-show='divErrMessage'  class="alert alert-warning">
