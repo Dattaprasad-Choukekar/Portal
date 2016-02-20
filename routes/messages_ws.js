@@ -39,11 +39,20 @@ router.get('/Courses/:id/messages',  function(req, res) {
 						return res.status(500).send(err);
 					}
 					
+					
 					for (var val in data) {
-						if (data[val].ownerId._id.toString() == req.user._id.toString()) {
+						if (req.user.role == "ST") {
+							if (data[val].ownerId._id.toString() == req.user._id.toString()) {
+								data[val]['editable'] = true;
+							} else {
+								data[val]['editable'] = false;
+							}
+							
+						} else {
 							data[val]['editable'] = true;
 						}
 					}
+					
 					res.json(data);
 				}
 			);
