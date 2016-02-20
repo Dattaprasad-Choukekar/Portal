@@ -1,0 +1,104 @@
+
+   
+<div ng-controller="BroadcastCtrl" ng-init="init()">
+
+<div>
+							<div class="sub-header clearfix">
+								<h2 class="pull-left">{{Heading}}</h2>
+								<button type="button" ng-click="init()" class="btn btn-info pull-right">Refresh</button>
+								<button type="button" ng-click="AddElementDiv()" class="btn btn-info pull-right" ng-show="ActionBtn">{{Action}} Message</button>
+							</div>
+						<div    class="table-responsive">
+							<table ng-show="divList" class="table table-striped table-hover table-bordered" show-filter="true">
+								<thead>
+									<tr>
+										
+										<th>Title</th>
+										<th>Message</th>
+										<th>Date</th>
+										<th>Classes</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="message in messages | filter : paginate">
+										
+										<td>
+                    {{message.title}}
+										</td>
+										<td>
+                    {{message.content}}
+										</td>
+										<td>
+                    {{message.date}} 
+										</td>
+										<td  >
+                    <span ng-repeat="class in message.classes">{{class.name}} </span>
+										</td>
+
+										<td>
+											<span ng-click="editElement(message)" class="btn btn-primary">Edit</span>
+
+										</td>
+										<td>
+											<span ng-click="deleteElement(message)" class="btn btn-primary">Delete</span>
+
+										</td>
+									</tr>
+								</table>
+								<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
+								</pagination>
+							</div>
+
+						<div ng-show="divAction" class="animate-show">
+								<p class="divHead"/>
+								<table class="table">
+									<tr>
+										<td>
+											<strong>Title *</strong>
+										</td>				
+										<td>
+											<textarea ng-model="title"></textarea>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<strong>Content *</strong>
+										</td>				
+										<td>
+											<textarea ng-model="content"></textarea>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<strong>Classes</strong>
+										</td>				
+										<td>
+											<label ng-repeat="class in classes track by $index">
+												<input ng-checked="isChecked(class)" ng-model="selection[$index]" ng-click="toggleSelection(class, selection[$index])" type="checkbox" />{{class.name}}
+											</label>
+		
+										</td>
+									</tr>
+									
+									   <tr>
+											<td colspan="2">
+												<input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateElement()" />
+												<input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+											</td>
+										</tr>
+								</table>        
+							</div>
+
+							
+
+						<div ng-show='divErrorMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>
+</div>
+</div>
+
+
+	
+	

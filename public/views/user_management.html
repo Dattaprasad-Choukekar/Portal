@@ -1,4 +1,5 @@
-    <h2 class="sub-header">List of Users</h2> 
+   
+ <h2 class="sub-header">List of Users</h2> 
 		<div class="table-responsive">
         <table class="table table-striped">
             <tr>
@@ -47,6 +48,8 @@
                 </td>
             </tr>
         </table>
+		<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
+								</pagination>
     </div>
 	
 	   <span ng-click="AddUserDiv()" class="btn btn-default" >

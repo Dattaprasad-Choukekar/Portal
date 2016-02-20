@@ -12,6 +12,9 @@ app.config(function($routeProvider) {
             }).when('/my_courses', {
                 templateUrl : 'views/my_courses.html',
                 controller  : 'TeacherCtrl'
+            }).when('/broadcast_messages', {
+                templateUrl : 'views/my_broadcast_messages.html',
+                controller  : 'BroadcastCtrl'
             });
 			
 			

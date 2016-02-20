@@ -227,3 +227,48 @@ app.service("MessageService", function ($http) {
     }
 	
 	});
+	
+app.service("BroadcastService", function ($http) {
+
+    
+    this.getAllMessages = function () {
+        return $http.get("/api/Broadcasts/");
+    };
+	
+	 // Add User
+    this.addMessage = function (message) {
+        var response = $http({
+            method: "post",
+            url: "/api/Broadcasts/",
+            data: JSON.stringify(message)
+        });
+        return response;
+    };
+	
+	this.updateMessage = function (message_id, message) {
+        var response = $http({
+            method: "put",
+            url: "/api/Broadcasts/" +message_id  ,
+            data: JSON.stringify(message)
+        });
+        return response;
+    };
+
+    this.deleteMessage = function (message_id) {
+        var response = $http({
+            method: "delete",
+            url: "/api/Broadcasts/" +message_id 
+        });
+        return response;
+    };
+	
+	this.getMessage = function (message_id) {
+        var response = $http({
+            method: "get",
+            url: "/api/Broadcasts/" +message_id
+        });
+        return response;
+    }
+	
+	});
+

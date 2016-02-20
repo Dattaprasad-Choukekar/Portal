@@ -48,7 +48,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session management and Passport config
-app.use(session({secret:'ilovescotchscotchyscotchscotch', cookie:{maxAge:600000}}));
+app.use(session({secret:'ilovescotchscotchyscotchscotch', cookie: { 
+  expires: new Date(Date.now() + 60 * 900000), 
+  maxAge: 60 * 900000
+}}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session

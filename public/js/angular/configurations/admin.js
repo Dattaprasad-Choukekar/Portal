@@ -4,8 +4,8 @@ app.config(function($routeProvider) {
 		
         $routeProvider
             .when('/', {
-                templateUrl : 'views/user_management.html',
-                controller  : 'UserCrudOpsCtrl'
+                templateUrl : 'views/broadcast_messages.html',
+                controller  : 'BroadcastCtrl'
             }).when('/manage_users', {
                 templateUrl : 'views/user_management.html',
                 controller  : 'UserCrudOpsCtrl'
@@ -15,7 +15,11 @@ app.config(function($routeProvider) {
             }).when('/manage_courses', {
                 templateUrl : 'views/course_management.html',
                 controller  : 'CourseCrudOpsCtrl'
-            }).otherwise({redirectTo: '/login'});
+            }).when('/broadcast_messages', {
+                templateUrl : 'views/broadcast_messages.html',
+                controller  : 'BroadcastCtrl'
+            })
+			.otherwise({redirectTo: '/login'});
 			
 			
     });

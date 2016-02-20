@@ -2,6 +2,7 @@ app.controller(controllers); //Includes all the controllers
 app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 	$scope.roles = ['AD', 'ST', 'TR'];
 	$scope.sexes = ['M', 'F', 'O'];
+	$scope.Action = "Add";
 	$scope.errorMessage = '';
     $scope.divUser = false;
 	GetAllUsers();
@@ -12,6 +13,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
         getUserData.then(function (users) {
 			console.log(users);
             $scope.users = users.data;
+			
         }, function (data) {
             console.error('Error in getting users :' + data.data);
 			$scope.errorMessage = 'Error in getting users';
@@ -121,6 +123,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCrudService) {
 	$scope.errorMessage = '';
     $scope.divAddElement = false;
+	$scope.Action = "Add";
 	GetAllClasses();
 	
 	

@@ -1,0 +1,49 @@
+
+<div ng-controller="BroadcastCtrl" ng-init="init()">
+
+<div>
+							<div class="sub-header clearfix">
+								<h2 class="pull-left">{{Heading}}</h2>
+								<button type="button" ng-click="init()" class="btn btn-info pull-right">Refresh</button>
+								
+							</div>
+						<div    class="table-responsive">
+							<table ng-show="divList" class="table table-striped table-hover table-bordered" show-filter="true">
+								<thead>
+									<tr>
+										
+										<th>Title</th>
+										<th>Message</th>
+										<th>Date</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="message in messages | filter : paginate">
+										
+										<td>
+                    {{message.title}}
+										</td>
+										<td>
+                    {{message.content}}
+										</td>
+										<td>
+                    {{message.date | date:"MM/dd/yyyy 'at' h:mma"}} 
+										</td>
+										
+									</tr>
+								</table>
+								<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
+								</pagination>
+							</div>
+
+						
+
+						<div ng-show='divErrorMessage'  class="alert alert-warning">
+		<strong>{{errorMessage}}</strong> 
+	</div>
+</div>
+</div>
+
+
+	
+	
