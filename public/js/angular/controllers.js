@@ -41,7 +41,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
             getUserData.then(function (msg) {
                 GetAllUsers();
                 $scope.divUser = false;
-				$scope.Action = 'Add User';
+				$scope.Action = 'Add';
             }, function (data) {
 				console.error('Error in updating user' + data.data);
 				$scope.errorMessage = 'Error in updating user';
@@ -52,7 +52,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
             getUserData.then(function (msg) {
                 GetAllUsers();
                 $scope.divUser = false;
-				$scope.Action = 'Add User';
+				$scope.Action = 'Add';
             }, function (data) {
                console.error('Error in adding user : ' + data.data);
 			   $scope.errorMessage = 'Error in adding user';
@@ -152,15 +152,11 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
         if (getUserAction == "Update") {
            
 		    ClassVar._id = $scope.classVar_id;
-			console.log('haha');
-			console.log(ClassVar);
-
-			
             var getClassData = ClassCrudService.UpdateClass(ClassVar);
             getClassData.then(function (msg) {
                 GetAllClasses();
                 $scope.divAddElement = false;
-				$scope.Action = 'Add Class';
+				$scope.Action = 'Add';
             }, function (data) {
 				console.error('Error in updating class' + data.data);
 				$scope.errorMessage = 'Error in updating class';
@@ -175,7 +171,7 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
                 GetAllClasses();
 				$scope.selection_watch();
                 $scope.divAddElement = false;
-				$scope.Action = 'Add User';
+				$scope.Action = 'Add';
             }, function (data) {
                console.error('Error in adding user : ' + data.data);
 			   $scope.errorMessage = 'Error in adding user';

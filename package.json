@@ -21,7 +21,8 @@
     "bcrypt-nodejs" : "latest",
 	"passport-http" : "~0.3.0",
 	"async": "latest",
-	"multer": "1.1.0"
+	"multer": "1.1.0",
+	"mongodb" : "2.1.7"
 	
   }
 }
