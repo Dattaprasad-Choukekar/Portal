@@ -32,11 +32,17 @@ router.get('/Courses/:id/messages',  function(req, res) {
 				 return 
 			}
 			
-			models.Message.find({}).populate('ownerId').exec(
+			models.Message.find({}).populate('ownerId').lean().exec(
 				function(err, data){
 					if (err) {
 						console.log(err);
 						return res.status(500).send(err);
+					}
+					
+					for (var val in data) {
+						if (data[val].ownerId._id.toString() == req.user._id.toString()) {
+							data[val]['editable'] = true;
+						}
 					}
 					res.json(data);
 				}
@@ -131,8 +137,8 @@ router.get('/Courses/:id/messages/:messageId', function(req, res) {
 				if (!found) {
 					return res.status(500).send('message with id does not exist' + req.params.messageId);
 				}
-
-				 res.json(found);
+				
+				res.json(found);
 
 			});
 		}

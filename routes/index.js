@@ -26,7 +26,7 @@ router.get('/teacher', authoriseUser.checkIsAdminOrTeacher, function(req, res, n
 
 
 router.get('/student', function(req, res, next) {
-  res.send('to be soon').end();
+  res.render('teacher', { title: 'Student Page' });
 });
 
 
