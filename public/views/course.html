@@ -104,41 +104,33 @@
 					<md-content class="md-padding">
 						<div ng-controller="MessageCtrl" ng-init="init()">
 							<div class="sub-header clearfix">
-								<h2 class="pull-left">{{Heading}}</h2>
+							
 								<button type="button" ng-click="init()" class="btn btn-info pull-right">Refresh</button>
 								<button type="button" ng-click="AddElementDiv()" class="btn btn-info pull-right" ng-show="ActionBtn">{{Action}} Message</button>
 							</div>
 							<div  ng-show="divList" class="table-responsive animate-show">
-								<table class="table table-striped">
-									<tr>
-										<th>Messages</th>
-									</tr>
-									<tr ng-repeat="message in messages | filter : paginate">
-										<td>
-											<div class="mainContainer">	
-												<div class="childContainers">
-													<div class="title clearfix">
-														<div class="pull-left">
-															<strong>{{message.ownerId.firstName}}&nbsp;{{message.ownerId.lastName | uppercase }}</strong>&nbsp;
+								
+								
+								
+								<div class="" ng-repeat="message in messages | filter : paginate">
+								<div style="clear:left;float:left" class="datta_date">
+								<strong>{{message.ownerId.firstName}}&nbsp;{{message.ownerId.lastName | uppercase }}</strong>&nbsp;</br>
 															<i>{{message.date |  date:"MM/dd/yyyy 'at' h:mma"}}</i>
-														</div>
-														
-													</div>
-													<div class="DataContainer">
-														<p ng-bind-html="message.content"></p>
-													</div>
-												</div>
-												<div class="pull-right">
+								</div>
+								<div class="talk-bubble tri-right left-top" style="float:left">
+								  
+								  <div class="talktext">
+									<p ng-bind-html="message.content"></p>
+								  </div>
+								</div>
+								<div class="pull-right">
 													<span ng-show="message.editable" ng-click="editElement(message)" class="btn btn-primary">Edit</span>
 													<span ng-show="message.editable" ng-click="deleteElement(message)" class="btn btn-danger">Delete</span>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</table>
-								<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
-								</pagination>
+								</div>
+								</div>
 							</div>
+							<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
+								</pagination>	
 
 
 							<div ng-show="divAction" class="animate-show">
@@ -178,4 +170,4 @@
 	<div ng-show='divErrorMessage'  class="alert alert-warning">
 		<strong>{{errorMessage}}</strong> 
 	</div>
-	
+	<link href="/css/bubble.css" rel="stylesheet"/>

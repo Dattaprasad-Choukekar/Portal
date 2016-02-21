@@ -8,6 +8,7 @@ var models = require('../models/models.js');
 var async = require('async');
 
 var multer = require('multer');
+var maxSize = 1 * 1000 * 1000;
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -15,10 +16,27 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, + Date.now() + '-'  + file.originalname );
-  }
+  } 
+  
 })
 
-var uploading = multer({ storage: storage });
+var uploading = multer({ storage: storage, limits: {
+		fileSize  : 1 *1000 * 1000
+	},
+	
+	        onFileSizeLimit: function (file) {
+
+            // res does exist here now :)
+            res.json({
+                message: "Upload failed",
+                status: 404
+                // status: -6
+            });
+
+        }
+	
+	
+});
 
 router.get('/Courses/:id/files',  function(req, res) {
 
