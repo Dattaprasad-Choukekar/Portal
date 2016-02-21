@@ -3,7 +3,7 @@
 	<h2 class="sub-header">Course    :  {{course.name}}</h2>
 	<span ng-repeat="class in course.classes">
 	<h3 class="sub-header">Class   : {{class.name}} 
-		<br/>Students : <span ng-repeat="student in class.students"> {{getStudentName(student)}}</span>
+		<br/>Students : <span ng-repeat="student in class.students"> {{getStudentName(student)}} {{$last ? '' : ', '}}</span>
 					
 	</h3>
 	</span>	

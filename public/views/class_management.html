@@ -20,7 +20,7 @@
 				<td>
 				 <span ng-repeat="student in class.students">
 				 
-                    {{student.firstName}}
+                    {{student.firstName}} {{$last ? '' : ', '}}
 					</span>
                 </td>
                 <td>
