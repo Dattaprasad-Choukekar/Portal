@@ -45,12 +45,26 @@ router.get('/Courses/:id/files',  function(req, res) {
 				 return 
 			}
 			
-			models.File.find({}).populate('ownerId').exec(
+			models.File.find({}).populate('ownerId').lean().exec(
 				function(err, data){
 					if (err) {
 						console.log(err);
 						return res.status(500).send(err);
 					}
+					
+					for (var val in data) {
+						if (req.user.role == "ST") {
+							if (data[val].ownerId._id.toString() == req.user._id.toString()) {
+								data[val]['editable'] = true;
+							} else {
+								data[val]['editable'] = false;
+							}
+							
+						} else {
+							data[val]['editable'] = true;
+						}
+					}
+					
 					res.json(data);
 				}
 			);

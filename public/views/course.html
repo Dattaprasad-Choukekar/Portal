@@ -1,9 +1,12 @@
     
 <div ng-controller="CourseCtrl">
 	<h2 class="sub-header">Course    :  {{course.name}}</h2>
-	<h3 class="sub-header">Classes   :<span ng-repeat="class in course.classes">
-                    {{class.name}}
-					</span></h3>	
+	<span ng-repeat="class in course.classes">
+	<h3 class="sub-header">Class   : {{class.name}} 
+		<br/>Students : <span ng-repeat="student in class.students"> {{getStudentName(student)}}</span>
+					
+	</h3>
+	</span>	
 	
 
 </div>
@@ -15,9 +18,10 @@
 		<md-tabs md-dynamic-height="" md-border-bottom="">
 			<md-tab label="Files">
 				<md-content class="md-padding">
-					<div id="fileSection" ng-show="showFilesSection">
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-bordered" show-filter="true">
+				    
+					<div id="fileSection" >
+						<div ng-show="showFileList" class="table-responsive">
+							<table  class="table table-striped table-hover table-bordered" show-filter="true">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -37,7 +41,7 @@
                     {{file.originalname}}
 										</td>
 										<td>
-                    {{file.size}}
+                    {{file.size/1000}} KB	
 										</td>
 										<td>
                     {{file.ownerId.firstName}} {{file.ownerId.lastName}}
@@ -50,18 +54,20 @@
 										</td>
 
 										<td>
-											<span ng-click="deleteFile(file)" class="btn btn-primary">Delete</span>
+											<span ng-show="file.editable" ng-click="deleteFile(file)" class="btn btn-primary">Delete</span>
 
 										</td>
 									</tr>
 								</table>
 								<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
 								</pagination>
+								<span class="btn btn-default pull-right" ng-click="upload()"  >Upload File </span>
+					</br>
 							</div>
 
 
 
-							<div ng-show='showFilesSection' >
+							<div ng-show='showFileUpload' >
 								<form method="post" enctype="multipart/form-data" action="{{formActionPath}}"/>
 								<table class="table">
 									<tr>
@@ -83,7 +89,8 @@
 									<tr>
 										<td/>
 										<td >
-											<input ng-model="file" type="submit" ng-click="refreshFilesList()" class="btn btn-default" value="Update" />
+											<input ng-model="file" type="submit" ng-click="refreshFilesList()" class="btn btn-default" value="Upload" />
+											<span class="btn btn-default" ng-click="cancel()" value="Cancel" >Cancel</span>
 
 										</td>
 									</tr>
@@ -113,7 +120,7 @@
 													<div class="title clearfix">
 														<div class="pull-left">
 															<strong>{{message.ownerId.firstName}}&nbsp;{{message.ownerId.lastName | uppercase }}</strong>&nbsp;
-															<i>{{message.date}}</i>
+															<i>{{message.date |  date:"MM/dd/yyyy 'at' h:mma"}}</i>
 														</div>
 														
 													</div>

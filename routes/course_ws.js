@@ -42,7 +42,7 @@ router.get('/Courses',  function(req, res) {
 		} 
 		
 		if (student.classRef ) {
-			models.Course.find({ classes : { $in: [student.classRef] }}).populate(teacherDipslayFields).populate('classes')
+			models.Course.find({ classes : { $in: [student.classRef] }}).populate(teacherDipslayFields).populate('classes').populate('classes.students')
 			  .exec(function (err, classes) {
 				if (err) {
 					 console.log(err);

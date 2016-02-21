@@ -14,7 +14,14 @@
 							<div ng-repeat="message in messages | filter : paginate">
 								
 								<div class="datta_date" >
-								{{message.date | date:"MM/dd/yyyy 'at' h:mma"}} 
+								{{message.date | date:"MM/dd/yyyy 'at' h:mma"}}
+									<hr/>
+									<span ng-repeat="class in message.classes">
+											{{ class.name}}
+									</span>
+									<span ng-show="message.classes.length == 0">
+										No classes assigned
+									</span>
 								</div>
 						
 								<div class="datta_msg_box" >

@@ -367,13 +367,26 @@ app.controller("CourseCtrl", function ($scope,$rootScope,$timeout, $http, $locat
 	$scope.totalItems = 0;
 	$scope.currentPage = 1;
 	$scope.numPerPage = 2;
-	$scope.showFilesSection = true;
+	$scope.showFileList = true;
+	$scope.showFileUpload = false;
 	if (!$rootScope.currentCourse) {
 		return $location.path('/');
 	}
+	
 	$scope.course = $rootScope.currentCourse;
 	$scope.formActionPath = "/api/courses/" + $scope.course._id + "/files";
+	getStudentData();
+	$scope.upload =  function() {
+		$scope.showFileList = false;
+		$scope.showFileUpload = true;
+		
+	}
 	
+	$scope.cancel =  function() {
+		$scope.showFileList = true;
+		$scope.showFileUpload = false;
+		
+	}
 	getCourseFiles($scope.course._id) ;
 	function getCourseFiles(courseId) {
 	
@@ -395,6 +408,7 @@ app.controller("CourseCtrl", function ($scope,$rootScope,$timeout, $http, $locat
 	};
 	
 	$scope.refreshFilesList = function () {
+		$scope.cancel();
 		 $timeout(function() {
 				getCourseFiles($scope.course._id) ;
 				if (!($scope.$$phase)) { // most of the time it is "$digest"
@@ -413,6 +427,33 @@ app.controller("CourseCtrl", function ($scope,$rootScope,$timeout, $http, $locat
 		   console.error('Error in deleting file : ' + data.data);
 		   $scope.errorMessage = 'Error in deleting file';
 		});
+	};
+	
+	function getStudentData() {
+		var response = $http({
+				method: "get",
+				url: "/api/Users/" 
+			});
+		
+			response.then(function (msg) {
+			
+				$scope.student_data = msg.data;
+		}, function (data) {
+		   console.error('Error in getting user info : ' + data.data);
+		   $scope.errorMessage = 'Error in getting user info';
+		});
+		
+	};
+	
+	$scope.getStudentName = function (student_id) {
+		
+		for (var index in $scope.student_data ) {
+		
+				if ($scope.student_data[index]._id.toString() == student_id.toString()) {
+					return $scope.student_data[index].firstName;
+				}
+	}
+		
 	};
 	
 
