@@ -106,7 +106,8 @@ var fileSchema = mongoose.Schema({
 		size	: {type: Number, trim: true, required: true},
 		destination: {type: String,required: true},
 		path: {type: String, required: true},
-		ownerId: { type: mongoose.Schema.ObjectId, ref: 'User', required : true}
+		ownerId: { type: mongoose.Schema.ObjectId, ref: 'User', required : true},
+		courseId: { type: mongoose.Schema.ObjectId, ref: 'Course', required : true}
 });
 
 var fileModel = mongoose.model('File', fileSchema);
@@ -116,7 +117,8 @@ var fileModel = mongoose.model('File', fileSchema);
 var messageSchema = mongoose.Schema({ 
 		content: {type: String, trim: true, required: true},
 		date: { type: Date, default: Date.now },
-		ownerId: { type: mongoose.Schema.ObjectId, ref: 'User', required : true}
+		ownerId: { type: mongoose.Schema.ObjectId, ref: 'User', required : true},
+		courseId: { type: mongoose.Schema.ObjectId, ref: 'Course', required : true}
 });
 
 var messageModel = mongoose.model('Message', messageSchema);

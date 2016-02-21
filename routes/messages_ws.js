@@ -32,7 +32,7 @@ router.get('/Courses/:id/messages',  function(req, res) {
 				 return 
 			}
 			
-			models.Message.find({}).sort('-date').populate('ownerId').lean().exec(
+			models.Message.find({'courseId' : mongoose.Types.ObjectId(req.params.id)}).sort('-date').populate('ownerId').lean().exec(
 				function(err, data){
 					if (err) {
 						console.log(err);
@@ -97,6 +97,8 @@ router.post('/Courses/:id/messages', function(req, res) {
 			if (!message.ownerId) {
 				message.ownerId = req.user._id;
 			}
+			
+			message.courseId = req.params.id;
 			message.save(function (err, data) {
 				if (err) {
 					console.log(err);
@@ -254,6 +256,7 @@ router.put('/Courses/:id/messages/:messageId', function(req, res) {
 				if (req.user.role == 'ST' && found.ownerId.toString() != req.user._id.toString()) {
 					return res.status(400).send('This message does not belong to requester');
 				}
+				
 				models.Message.findByIdAndUpdate(req.params.messageId, req.body, function (err, found){
 					if (err) {
 						console.log(err);	

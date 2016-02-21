@@ -45,7 +45,7 @@ router.get('/Courses/:id/files',  function(req, res) {
 				 return 
 			}
 			
-			models.File.find({}).populate('ownerId').lean().exec(
+			models.File.find({'courseId' : mongoose.Types.ObjectId(req.params.id)}).populate('ownerId').lean().exec(
 				function(err, data){
 					if (err) {
 						console.log(err);
@@ -111,6 +111,7 @@ router.post('/Courses/:id/files', uploading.single('file'), function(req, res) {
 			
 			var file = new models.File(req.file);
 			file.ownerId = req.user._id;
+			file.courseId = req.params.id;
 			file.save(function (err, data) {
 				if (err) {
 					console.log(err);
