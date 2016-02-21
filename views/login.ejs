@@ -1,35 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
 <% include partials/head.html %>
 <title>Login Page</title>
 </head>
 
 <body>
 
-
-
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <div style="css/signin.css">
-		<div class="form-group has-error">
-			<% if (message) { %>
-			<p class="error"><%= message %></p>
-			<% } %>
-		</div>
-          <form class="form-signin" method="post"  >
-          <h2 class="form-signin-heading">Please sign in</h2>
-          <label for="inputEmail" class="sr-only">Email address</label> 
-          <input type="text" name="username" id="username" class="form-control" placeholder="Email address" required="" autofocus="" /> 
-          <label for="inputPassword" class="sr-only">Password</label> 
-          <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="" />
-          <div class="checkbox">
-            <label>
-            <input type="checkbox" value="remember-me" /> Remember me</label>
-          </div>
-          <button name="submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button></form>
-        </div>
-</div>
-
+ <!-- Top content -->
+        <div class="top-content">
+        	
+            <div class="inner-bg">
+                <div class="container"></div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        	<div class="form-top">
+                        		<div class="form-top-left">
+                        			<h3>Login to our site</h3>
+                            		<p>Enter your username and password to log on:</p>
+                        		</div>
+                        		<div class="form-top-right">
+                        			<i class="fa fa-lock"></i>
+                        		</div>
+                            </div>
+                            <div class="form-bottom">
+								<div class="form-group has-error">
+									<% if (message) { %>
+									<p class="error"><%= message %></p>
+									<% } %>
+								</div>
+			                    <form role="form" action="" method="post" class="login-form">
+			                    	<div class="form-group">
+			                    		<label class="sr-only" for="form-username">Username</label>
+			                        	<input type="text" name="username" id="username"  placeholder="Username..." class="form-username form-control">
+			                        </div>
+			                        <div class="form-group">
+			                        	<label class="sr-only" for="form-password">Password</label>
+			                        	<input type="password" name="password" id="password" placeholder="Password..." class="form-password form-control">
+			                        </div>
+									<label>
+										<input type="checkbox" value="remember-me" /> Remember me</label>
+			                        <button type="submit" class="btn">Sign in!</button>
+			                    </form>
+		                    </div>
+                        </div>
+                    </div>
+                   
 <% include partials/bottom.html %>
+<script src="./js/jquery.backstretch.min.js"></script>
+<script src="./js/scripts.js"></script>
+ <!--[if lt IE 10]>
+	<script src="assets/js/placeholder.js"></script>
+<![endif]-->
 </body>
 </html>
