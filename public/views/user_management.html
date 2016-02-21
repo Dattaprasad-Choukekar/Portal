@@ -1,125 +1,138 @@
- <span ng-click="AddUserDiv()" class="btn btn-default pull-right" >
+<header class="sub-header panel-heading">
+                              List of Users
+	<span ng-click="AddUserDiv()" class="btn btn-default pull-right" >
         {{Action}} User
-    </span>  
- <h2 class="sub-header">List of Users</h2> 
- 
-		<div ng-show="divList" class="table-responsive">
-        <table class="table table-striped">
-            <tr>
-                <!--<td><b>ID</b></td> -->
-                <td><b>Username</b></td>
-               
-				<td><b>First Name</b></td>
-				<td><b>Last Name</b></td>
-				<td><b>Birth Date</b></td>
-				<td><b>Email</b></td>
-				<td><b>Sex</b></td>
-				<td><b>Role</b></td>
-                <td><b>Action</b></td>
-            </tr>
-            <tr ng-repeat="user in users | filter : paginate">
-              <!--  <td>
+	</span>  
+</header>
+
+
+<div ng-show="divList" class="table-responsive">
+	<table class="table table-striped table-advance table-hover">
+		<tr>
+			<!--<td><b>ID</b></td> -->
+			<th>Username</th>
+			<th>
+				<i class="icon_profile"/> Full Name</th>
+			<th>
+				<i class="icon_calendar"/> Birth Date</th>
+			<th>
+				<i class="icon_mail_alt"/> Email</th>
+			<th>Sex</th>
+			<th>Role</th>
+			<th>
+				<i class="icon_cogs"/> Action</th>
+		</tr>
+		<tr ng-repeat="user in users | filter : paginate">
+			<!--  <td>
                     {{user._id}}
                 </td> -->
-                <td>
-                    {{user.username}}
-                </td>
-               
-				<td>
-                    {{user.firstName}}
-                </td>
-					<td>
-                    {{user.lastName}}
-                </td>
-					<td>
-                    {{user.birthDate | date:"MM/dd/yyyy 'at' h:mma"}}
-                </td>
-					<td>
-                    {{user.email}}
-                </td>
-					<td>
-                    {{user.sex}}
-                </td>
-					<td>
-                    {{user.role}}
-                </td>
-                <td>
-                    <span ng-click="editUser(user)" class="btn btn-primary">Edit</span>
-                    <span ng-click="deleteUser(user)" class="btn btn-danger">Delete</span>
-                </td>
-            </tr>
-        </table>
-		<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
-								</pagination>
-    </div>
-	
-	   
-    <div ng-show="divUser">
-        <p class="divHead"></p>
-        <table class="table">
-            <tr>
-                <td><b><i>{{Action}} User</i></b></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr> 
-            <tr>
-                <td><b>Username *</b></td>
-                <td>
-                    <input type="text" ng-model="username" />
-                </td>
-            </tr>           
-            <tr>
-                <td><b>Password *</b></td>
-                <td>
-                    <input type="password" ng-model="password" />
-                </td>
-            </tr>
-			 <tr>
-                <td><b>First Name *</b></td>
-                <td>
-                    <input type="text" ng-model="firstName" />
-                </td>
-            </tr>
-			 <tr>
-                <td><b>Last Name *</b></td>
-                <td>
-                    <input type="text" ng-model="lastName" />
-                </td>
-            </tr>
-			 <tr>
-                <td><b>Birth Date</b></td>
-                <td>
-                    <input type="date" ng-model="birthDate" />
-                </td>
-            </tr>
-			<tr>
-                <td><b>Email</b></td>
-                <td>
-                    <input type="text" ng-model="email" />
-                </td>
-            </tr>
-			<tr>
-                <td><b>Sex</b></td>
-                <td>
-                   <select ng-model="sex" ng-options="x for x in sexes"></select>
-                </td>
-            </tr>
-			 <tr>
-                <td><b>Role</b></td>
-                <td>
-                    <select ng-model="role" ng-options="x for x in roles"></select>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td >
-                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateUser()" />
-                    <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
-                </td>
-            </tr>
-        </table>        
-    </div>
-	<div ng-show='errorMessage'  class="alert alert-warning">
-		<strong>{{errorMessage}}</strong> 
-	</div>
+			<td>{{user.username}}</td>
+			<td>{{user.firstName}} &nbsp; {{user.lastName | uppercase}} </td>
+			<td>{{user.birthDate | date:"MM/dd/yyyy"}}</td>
+			<td> {{user.email}}</td>
+			<td>{{user.sex}}</td>
+			<td>{{user.role}}</td>
+			<td>
+				<a class="btn btn-primary" ng-click="editUser(user)" href="javascript:void(0);">
+					<i class="icon_plus_alt2"/>
+				</a>
+				<a class="btn btn-danger" ng-click="deleteUser(user)" href="javascript:void(0);">
+					<i class="icon_close_alt2"/>
+				</a>
+			</td>
+		</tr>
+	</table>
+	<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
+	</pagination>
+</div>
+
+
+<div ng-show="divUser">
+	<p class="divHead"/>
+	<table class="table">
+		<tr>
+			<td>
+				<b>
+					<i>{{Action}} User</i>
+				</b>
+			</td>
+			<td/>
+			<td/>
+			<td/>
+		</tr> 
+		<tr>
+			<td>
+				<b>Username *</b>
+			</td>
+			<td>
+				<input type="text" ng-model="username" />
+			</td>
+		</tr>           
+		<tr>
+			<td>
+				<b>Password *</b>
+			</td>
+			<td>
+				<input type="password" ng-model="password" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>First Name *</b>
+			</td>
+			<td>
+				<input type="text" ng-model="firstName" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Last Name *</b>
+			</td>
+			<td>
+				<input type="text" ng-model="lastName" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Birth Date</b>
+			</td>
+			<td>
+				<input type="date" ng-model="birthDate" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Email</b>
+			</td>
+			<td>
+				<input type="text" ng-model="email" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Sex</b>
+			</td>
+			<td>
+				<select ng-model="sex" ng-options="x for x in sexes"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Role</b>
+			</td>
+			<td>
+				<select ng-model="role" ng-options="x for x in roles"/>
+			</td>
+		</tr>
+		<tr>
+			<td/>
+			<td >
+				<input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateUser()" />
+				<input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+			</td>
+		</tr>
+	</table>        
+</div>
+<div ng-show='errorMessage'  class="alert alert-warning">
+	<strong>{{errorMessage}}</strong> 
+</div>
