@@ -17,7 +17,7 @@ router.get('/Broadcasts/',  function(req, res) {
 					return res.status(500).send(err);
 			}
 			if (student.classRef) {
-				models.Broadcast.find({classes : {$in : [student.classRef] }}).populate('ownerId').populate('classes').exec(
+				models.Broadcast.find({classes : {$in : [student.classRef] }}).sort('-date').populate('ownerId').populate('classes').exec(
 				function (err, broadcasts) {
 					if (err) {
 						console.log(err);
@@ -34,7 +34,7 @@ router.get('/Broadcasts/',  function(req, res) {
 	}
 	
 	if (req.user.role == 'AD' || req.user.role == 'TR') {
-		models.Broadcast.find().populate('ownerId').populate('classes').exec(
+		models.Broadcast.find().populate('ownerId').sort('-date').populate('classes').exec(
 			function (err, broadcasts) {
 				if (err) {
 					console.log(err);

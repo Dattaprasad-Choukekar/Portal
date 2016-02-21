@@ -19,11 +19,11 @@
 				<td>
                     {{course.teacher.firstName}}&nbsp;{{course.teacher.lastName | uppercase }}
                 </td>
-				<td>
+				<td >
                     <div  class="virtualRepeatdemoDeferredLoading" ng-cloak="">
 					  <md-content layout="column">
 						<md-virtual-repeat-container id="vertical-container">
-						  <div ng-repeat="class in course.classes" md-on-demand="" class="repeated-item" flex="">
+						  <div ng-repeat="class in course.classes" md-on-demand="" class="repeated-item"  flex="">
 							{{class.name}}
 						  </div>
 						</md-virtual-repeat-container>

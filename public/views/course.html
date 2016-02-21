@@ -106,7 +106,7 @@
 									<tr>
 										<th>Messages</th>
 									</tr>
-									<tr ng-repeat="message in messages">
+									<tr ng-repeat="message in messages | filter : paginate">
 										<td>
 											<div class="mainContainer">	
 												<div class="childContainers">
@@ -122,13 +122,15 @@
 													</div>
 												</div>
 												<div class="pull-right">
-													<span ng-click="editElement(message)" class="btn btn-primary">Edit</span>
-													<span ng-click="deleteElement(message)" class="btn btn-danger">Delete</span>
+													<span ng-show="message.editable" ng-click="editElement(message)" class="btn btn-primary">Edit</span>
+													<span ng-show="message.editable" ng-click="deleteElement(message)" class="btn btn-danger">Delete</span>
 												</div>
 											</div>
 										</td>
 									</tr>
 								</table>
+								<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
+								</pagination>
 							</div>
 
 
@@ -150,7 +152,8 @@
 												<input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
 											</td>
 										</tr>
-								</table>        
+								</table>       
+																
 							</div>
 							<div ng-show='divErrMessage'  class="alert alert-warning">
 								<strong>{{errorMessage}}</strong> 

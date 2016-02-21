@@ -7,7 +7,7 @@ controllers.BroadcastCtrl = function ($location, BroadcastService, $rootScope, $
 	
 	$scope.totalItems = 0;
 	$scope.currentPage = 1;
-	$scope.numPerPage = 5;
+	$scope.numPerPage = 3;
 		
 	$scope.init =  function(){
 		$scope.Action = 'Add';

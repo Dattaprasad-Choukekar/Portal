@@ -5,6 +5,10 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 	$scope.Action = "Add";
 	$scope.errorMessage = '';
     $scope.divUser = false;
+	$scope.divList = true;
+	$scope.totalItems = 0;
+	$scope.currentPage = 1;
+	$scope.numPerPage = 7;
 	GetAllUsers();
 	
     //To Get all user records  
@@ -12,7 +16,15 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 		var getUserData = userCrudService.getUsers();
         getUserData.then(function (users) {
 			console.log(users);
-            $scope.users = users.data;
+            $scope.users = users.data;			
+			$scope.totalItems = $scope.users.length;
+			$scope.paginate = function(value) {
+				var begin, end, index;
+				begin = ($scope.currentPage - 1) * $scope.numPerPage;
+				end = begin + $scope.numPerPage;
+				index = $scope.users.indexOf(value);
+				return (begin <= index && index < end);
+		  };
 			
         }, function (data) {
             console.error('Error in getting users :' + data.data);
@@ -42,6 +54,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
                 GetAllUsers();
                 $scope.divUser = false;
 				$scope.Action = 'Add';
+				$scope.divList = true;
             }, function (data) {
 				console.error('Error in updating user' + data.data);
 				$scope.errorMessage = 'Error in updating user';
@@ -52,6 +65,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
             getUserData.then(function (msg) {
                 GetAllUsers();
                 $scope.divUser = false;
+				$scope.divList = true;
 				$scope.Action = 'Add';
             }, function (data) {
                console.error('Error in adding user : ' + data.data);
@@ -66,6 +80,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
         $scope.divUser = true;
 		$scope.role = 'AD';
 		$scope.sex = 'M';
+		$scope.divList = false;
     }
 	
 	
@@ -94,6 +109,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
 			$scope.sex = user.sex;
             $scope.Action = "Update";
             $scope.divUser = true;
+			$scope.divList = false;
         }, function (data) {
 			console.error('Error in getting user' + data.data);
 			$scope.errorMessage = 'Error in getting user';
@@ -114,6 +130,7 @@ app.controller("UserCrudOpsCtrl", function ($scope, userCrudService) {
     $scope.Cancel = function () {
         $scope.divUser = false;
 		$scope.Action = 'Add';
+		$scope.divList = true;
     };
 	
 	

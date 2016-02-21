@@ -6,13 +6,15 @@ var models = require('../models/models.js');
 
 /* GET /Users listing. */
 router.get('/Users', function(req, res) {
-  models.User.find(function (err, Users) {
+  models.User.find().select("password username password firstName lastName email birthDate sex classRef role").exec(
+  function (err, Users) {
     if (err) {
 		console.log(err);
 		res.send(err);
 	} 
     res.json(Users);
-  });
+  }
+  );
 });
 
 /* POST /Users */

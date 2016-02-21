@@ -7,6 +7,9 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
 	$scope.course = $rootScope.currentCourse;
 	$scope.errorMessage = '';
 	$scope.divAddElement = false;
+	$scope.totalItems = 0;
+	$scope.currentPage = 1;
+	$scope.numPerPage = 3;
 		
 	$scope.init =  function(){
 		$scope.Action = 'Add';
@@ -25,8 +28,14 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
 		var message_data = MessageService.getAllMessages(course_id);
         message_data.then(function (messages) {
 								$scope.messages = messages.data;
-								console.log('Printing data');
-								console.log($scope.messages);
+								$scope.totalItems = $scope.messages.length;
+								$scope.paginate = function(value) {
+										var begin, end, index;
+										begin = ($scope.currentPage - 1) * $scope.numPerPage;
+										end = begin + $scope.numPerPage;
+										index = $scope.messages.indexOf(value);
+										return (begin <= index && index < end);
+								  };
 							}, function (data) {
 								console.error('Error in getting messages :' + data.data);
 								$scope.errorMessage = 'Error in getting messages';

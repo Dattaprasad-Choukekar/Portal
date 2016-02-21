@@ -1,11 +1,14 @@
-   
+ <span ng-click="AddUserDiv()" class="btn btn-default pull-right" >
+        {{Action}} User
+    </span>  
  <h2 class="sub-header">List of Users</h2> 
-		<div class="table-responsive">
+ 
+		<div ng-show="divList" class="table-responsive">
         <table class="table table-striped">
             <tr>
                 <!--<td><b>ID</b></td> -->
                 <td><b>Username</b></td>
-                <td><b>Password</b></td>
+               
 				<td><b>First Name</b></td>
 				<td><b>Last Name</b></td>
 				<td><b>Birth Date</b></td>
@@ -14,16 +17,14 @@
 				<td><b>Role</b></td>
                 <td><b>Action</b></td>
             </tr>
-            <tr ng-repeat="user in users">
+            <tr ng-repeat="user in users | filter : paginate">
               <!--  <td>
                     {{user._id}}
                 </td> -->
                 <td>
                     {{user.username}}
                 </td>
-                <td>
-                    {{user.password}}
-                </td>
+               
 				<td>
                     {{user.firstName}}
                 </td>
@@ -31,7 +32,7 @@
                     {{user.lastName}}
                 </td>
 					<td>
-                    {{user.birthDate}}
+                    {{user.birthDate | date:"MM/dd/yyyy 'at' h:mma"}}
                 </td>
 					<td>
                     {{user.email}}
@@ -52,9 +53,7 @@
 								</pagination>
     </div>
 	
-	   <span ng-click="AddUserDiv()" class="btn btn-default" >
-        {{Action}} User
-    </span>
+	   
     <div ng-show="divUser">
         <p class="divHead"></p>
         <table class="table">
@@ -73,7 +72,7 @@
             <tr>
                 <td><b>Password *</b></td>
                 <td>
-                    <input type="text" ng-model="password" />
+                    <input type="password" ng-model="password" />
                 </td>
             </tr>
 			 <tr>

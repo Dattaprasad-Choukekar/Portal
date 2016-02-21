@@ -32,7 +32,7 @@ router.get('/Courses/:id/messages',  function(req, res) {
 				 return 
 			}
 			
-			models.Message.find({}).populate('ownerId').lean().exec(
+			models.Message.find({}).sort('-date').populate('ownerId').lean().exec(
 				function(err, data){
 					if (err) {
 						console.log(err);

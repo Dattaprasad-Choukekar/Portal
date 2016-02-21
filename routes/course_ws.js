@@ -18,20 +18,45 @@ var teacherDipslayFields = {
 router.get('/Courses',  function(req, res) {
  console.log(req.body);
  var filterParams = {};
- if (req.user.role == 'TR') {
-	filterParams = { teacher : req.user._id};
- } else if (req.user.role == 'ST') {
-	//filterParams = { students : { $in: [req.user._id] }};
-	// TODO 
- }
-  models.Course.find(filterParams).populate(teacherDipslayFields).populate('classes')
+ if (req.user.role == 'TR' || req.user.role == 'AD') {
+	if (req.user.role == 'TR'){
+		filterParams = { teacher : req.user._id};
+	}
+	  models.Course.find(filterParams).populate(teacherDipslayFields).populate('classes')
   .exec(function (err, classes) {
     if (err) {
 		 console.log(err);
-		 res.status(500).send(errorMsg);
+		 return res.status(500).send(errorMsg);
 	} 
-    res.json(classes);
+    return res.json(classes);
   }); 
+ } else if (req.user.role == 'ST') {
+	//filterParams = { students : { $in: [req.user._id] }};
+	// TODO 
+	
+	models.Student.findById(req.user._id).
+		exec(function (err, student) {
+		if (err) {
+			 console.log(err);
+			 return  res.status(500).send(errorMsg);
+		} 
+		
+		if (student.classRef ) {
+			models.Course.find({ classes : { $in: [student.classRef] }}).populate(teacherDipslayFields).populate('classes')
+			  .exec(function (err, classes) {
+				if (err) {
+					 console.log(err);
+					res.status(500).send(errorMsg);
+				} 
+				console.log(classes);
+				return res.json(classes);
+			  }); 
+		
+		}else {
+			return res.json({});
+		}
+	  }); 
+ }
 
 });
 

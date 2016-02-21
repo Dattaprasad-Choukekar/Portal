@@ -193,6 +193,40 @@ html         { overflow-y:hidden; }
 	animation:scaleUp 0.5s both ease-in;    
 }
 
+.datta_msg_box {
+
+background: #86BB71;
+
+color: white;
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 7px;
+	 margin-left: 30px;
+    margin-bottom: 30px;
+    width: 70%;
+	float:left;
+}
+
+.datta_user {
+    color: #grey;
+    padding-left: 6px;
+	float:left;
+}
+
+.datta_button {
+float:left;
+  padding-left: 6px;
+}
+
+.datta_date {
+  clear:left;
+  color: #92959E;
+  float:left;
+}
+
+}
+
 /* about ------------------------ */
 .page-about.ng-leave        {
     -webkit-animation:slideOutLeft 0.5s both ease-in;

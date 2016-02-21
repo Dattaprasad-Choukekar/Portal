@@ -8,45 +8,26 @@
 								<button type="button" ng-click="init()" class="btn btn-info pull-right">Refresh</button>
 								<button type="button" ng-click="AddElementDiv()" class="btn btn-info pull-right" ng-show="ActionBtn">{{Action}} Message</button>
 							</div>
-						<div    class="table-responsive">
-							<table ng-show="divList" class="table table-striped table-hover table-bordered" show-filter="true">
-								<thead>
-									<tr>
-										
-										<th>Title</th>
-										<th>Message</th>
-										<th>Date</th>
-										<th>Classes</th>
-										<th>Edit</th>
-										<th>Delete</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="message in messages | filter : paginate">
-										
-										<td>
-                    {{message.title}}
-										</td>
-										<td>
-                    {{message.content}}
-										</td>
-										<td>
-                    {{message.date}} 
-										</td>
-										<td  >
-                    <span ng-repeat="class in message.classes">{{class.name}} </span>
-										</td>
-
-										<td>
-											<span ng-click="editElement(message)" class="btn btn-primary">Edit</span>
-
-										</td>
-										<td>
-											<span ng-click="deleteElement(message)" class="btn btn-primary">Delete</span>
-
-										</td>
-									</tr>
-								</table>
+						<div   ng-show="divList" class="table-responsive">
+						
+						
+							<div ng-repeat="message in messages | filter : paginate">
+								
+								<div class="datta_date" >
+								{{message.date | date:"MM/dd/yyyy 'at' h:mma"}} 
+								</div>
+						
+								<div class="datta_msg_box" >
+									<span style="color:black;">{{message.title}} </span>
+									<hr style="color:black;padding:0;margin:0;"/>
+									<span>{{message.content}} </span>
+								</div>
+								<div class="datta_button">
+								<span ng-click="editElement(message)" class="btn btn-primary ">Edit</span>
+								<span ng-click="deleteElement(message)" class="btn btn-primary ">Delete</span>
+								</div>	
+							</div>
+											
 								<pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true" items-per-page="numPerPage" class="pagination-sm">
 								</pagination>
 							</div>

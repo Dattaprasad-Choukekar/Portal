@@ -1,4 +1,4 @@
-var app = angular.module("UserCrudOps", ['ngRoute', 'ngAnimate']);
+var app = angular.module("UserCrudOps", ['ngMaterial', 'ngRoute', 'ngAnimate', 'ui.bootstrap', 'ngResource']);
 
 app.config(function($routeProvider) {
 		
