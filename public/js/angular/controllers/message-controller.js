@@ -3,6 +3,7 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
 	if (!$rootScope.currentCourse) {
 		return $location.path('/');
 	}
+	
 	$scope.course = $rootScope.currentCourse;
 	$scope.errorMessage = '';
 	$scope.divAddElement = false;
@@ -10,6 +11,11 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
 	$scope.init =  function(){
 		$scope.Action = 'Add';
 		$scope.Heading = 'List of Messages';
+		$scope.divErrMessage=false;
+        $scope.divAction = false;
+		$scope.orightml = '';
+		$scope.htmlcontent = $scope.orightml;
+		$scope.disabled = false;
 		$scope.ActionBtn = true;
 		$scope.divList = true;
 		getAllMessages($scope.course._id);
@@ -28,11 +34,11 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
     }
 	
 	$scope.AddElementDiv = function(){
-		ClearFields();
 		$scope.divList = false;
-		$scope.divAction = true;
 		$scope.ActionBtn = false;
-		var i = 0;
+		ClearFields();
+		$scope.divAction = true;
+		console.log('something');
 	}
 	
 	$scope.deleteElement = function (element) {
@@ -46,15 +52,15 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
     }
 	
 	function ClearFields() {
-        $scope.content = "";
+        $scope.htmlcontent = "";
     }
 	
     $scope.Cancel = function () {
         $scope.divAction = false;
+		$scope.Action = 'Add';
+		//$scope.Heading = 'List of Messages';
 		$scope.divList = true;
 		$scope.ActionBtn = true;
-		$scope.Action = 'Add';
-		$scope.Heading = 'List of Messages';
     };
 	
 	$scope.editElement = function (message) {
@@ -62,9 +68,9 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
         var messsage_data = MessageService.getMessage($scope.course._id, message._id);
 		messsage_data.then(function (data) {
 				$scope._message = data.data;
-				$scope.content = data.data.content;
-				$scope.Action = "Update";
 				$scope.divList = false;
+				$scope.Action = "Update";
+				$scope.htmlcontent = data.data.content;
 				$scope.divAction = true;
 				$scope.ActionBtn = false;
 
@@ -76,26 +82,27 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
 	
 	function ClearFields() {
         $scope.content = "";
-		$scope.previous_selection = [];
-		$scope.selected_classes = [];
+		//$scope.previous_selection = [];
+		//$scope.selected_classes = [];
     }
 	
     $scope.Cancel = function () {
         $scope.divAction = false;
-		$scope.divList = true;
-		$scope.ActionBtn = true;
 		$scope.Action = 'Add';
 		$scope.Heading = 'List of Courses';
+		$scope.divList = true;
+		$scope.ActionBtn = true;
     };
 	
 	// Add and Edit options
 	$scope.AddUpdateElement = function () {
         var message = {
-			content: $scope.content,
+			content: $scope.htmlcontent,
         };
         var getUserAction = $scope.Action;
 		var result;
-
+		
+				
         if (getUserAction == "Update") {
             result = MessageService.updateMessage($scope.course._id, $scope._message._id, message);			
         } else {
@@ -103,12 +110,9 @@ controllers.MessageCtrl = function ($location, $rootScope, $scope, MessageServic
 		}
             result.then(function (msg) {
                 $scope.Action = 'Add';
-				$scope.Heading = 'List of Messages';
+				$scope.Heading = 'List of Messages';				
 				$scope.init();
-				$scope.divErrMessage=false;
-                $scope.divList = true;
-				$scope.divAction = false;
-				$scope.ActionBtn = true;				
+							
             }, function (data) {
 				$scope.divErrMessage=true;
                console.error('Error in adding message : ' + data.data);

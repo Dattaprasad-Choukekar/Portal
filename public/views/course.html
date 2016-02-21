@@ -104,25 +104,28 @@
 							<div  ng-show="divList" class="table-responsive animate-show">
 								<table class="table table-striped">
 									<tr>
-										<th>Message</th>
-										<th>Date</th>
-										<th>Created By</th>
-										<th>Action</th>
+										<th>Messages</th>
 									</tr>
 									<tr ng-repeat="message in messages">
-
 										<td>
-                    {{message.content}}
-										</td>
-										<td>
-                    {{message.date}}
-										</td>
-										<td>
-					{{message.ownerId.firstName}}&nbsp;{{message.ownerId.lastName | uppercase }}
-										</td>
-										<td>
-											<span ng-click="editElement(message)" class="btn btn-primary">Edit</span>
-											<span ng-click="deleteElement(message)" class="btn btn-danger">Delete</span>
+											<div class="mainContainer">	
+												<div class="childContainers">
+													<div class="title clearfix">
+														<div class="pull-left">
+															<strong>{{message.ownerId.firstName}}&nbsp;{{message.ownerId.lastName | uppercase }}</strong>&nbsp;
+															<i>{{message.date}}</i>
+														</div>
+														
+													</div>
+													<div class="DataContainer">
+														<p ng-bind-html="message.content"></p>
+													</div>
+												</div>
+												<div class="pull-right">
+													<span ng-click="editElement(message)" class="btn btn-primary">Edit</span>
+													<span ng-click="deleteElement(message)" class="btn btn-danger">Delete</span>
+												</div>
+											</div>
 										</td>
 									</tr>
 								</table>
@@ -130,14 +133,15 @@
 
 
 							<div ng-show="divAction" class="animate-show">
-								<p class="divHead"/>
+								<p class="divHead"></p>
 								<table class="table">
 									<tr>
 										<td>
 											<strong>Message *</strong>
 										</td>				
-										<td>
-											<textarea ng-model="content"></textarea>
+										<td class="container app">
+											<div text-angular="text-angular" name="htmlcontent" ng-model="htmlcontent" ta-disabled='disabled'></div>
+											<textarea ng-model="htmlcontent" ng-show="contentShow" style="width: 100%; "></textarea>
 										</td>
 									</tr>
 									   <tr>

@@ -1,4 +1,4 @@
-var app = angular.module("TeacherPageApp", ['ngMaterial', 'ngRoute', 'ui.bootstrap', 'ngResource']);
+var app = angular.module("TeacherPageApp", ['ngMaterial', 'ngRoute', 'ngAnimate', 'ui.bootstrap', 'ngResource', 'textAngular', 'ngSanitize']);
 
 app.config(function($routeProvider) {
 		
