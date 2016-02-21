@@ -7,6 +7,17 @@ body {
   padding-top: 50px;
 }
 
+.logoImage{
+	background-image: url("../images/logo.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+	height: 140px;
+	width: 205px !important;
+}
+.indexPageLogo{
+	position: relative;
+	left: 180px;
+}
 
 /*
  * Global add-ons
