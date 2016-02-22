@@ -1,6 +1,7 @@
 <header ng-init="init()" class="sub-header panel-heading alert alert-info">{{Heading}}
 	<span ng-click="AddCourseDiv()" class="glyphicon glyphicon-plus btn btn-primary pull-right" ng-show="ActionBtn">
-	</span>
+	
+</span>
 </header>
 <div  ng-show="divList" class="table-responsive animate-show">
         <table class="table table-striped table-advance table-hover">
@@ -15,13 +16,11 @@
 				<td class="hidden-sm">{{course.teacher.firstName}}&nbsp;{{course.teacher.lastName | uppercase }}</td>
 				<td class="hidden-sm">
                     <div  class="virtualRepeatdemoDeferredLoading" ng-cloak="">
-					  <md-content layout="column">
-						<md-virtual-repeat-container id="vertical-container">
+					  
 						  <div ng-repeat="class in course.classes" md-on-demand="" class="repeated-item"  flex="">
-							{{class.name}}
+							{{class.name}}  {{$last ? '' : ', '}}
 						  </div>
-						</md-virtual-repeat-container>
-					  </md-content>
+						
 					</div>
                 </td>
                 <td>

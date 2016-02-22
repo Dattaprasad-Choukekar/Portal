@@ -141,6 +141,7 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
 	$scope.errorMessage = '';
     $scope.divAddElement = false;
 	$scope.Action = "Add";
+	$scope.ActionBtn = true;
 	GetAllClasses();
 	
 	
@@ -150,8 +151,7 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
         getClassData.then(function (classes) {
 			console.log(classes);
             $scope.classes = classes.data;
-			console.log('sssssssss');
-			console.log($scope.classes);
+			
         }, function (data) {
             console.error('Error in getting classes :' + data.data);
 			$scope.errorMessage = 'Error in getting classes';
@@ -174,6 +174,7 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
                 GetAllClasses();
                 $scope.divAddElement = false;
 				$scope.Action = 'Add';
+				$scope.ActionBtn = true;
             }, function (data) {
 				console.error('Error in updating class' + data.data);
 				$scope.errorMessage = 'Error in updating class';
@@ -189,6 +190,7 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
 				$scope.selection_watch();
                 $scope.divAddElement = false;
 				$scope.Action = 'Add';
+				$scope.ActionBtn = true;
             }, function (data) {
                console.error('Error in adding user : ' + data.data);
 			   $scope.errorMessage = 'Error in adding user';
@@ -199,6 +201,7 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
 	
 	$scope.AddElementDiv = function () {
 		ClearFields();
+		$scope.ActionBtn = false;
 		getRemainingStudents();
 
 		$scope.selection_watch = $scope.$watch('selection', function () {
@@ -251,7 +254,8 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
 	
 	$scope.editClass = function (classVar) {
 		ClearFields();
-        var getClassData = ClassCrudService.GetClass(classVar._id);
+        $scope.ActionBtn = false;
+		var getClassData = ClassCrudService.GetClass(classVar._id);
         getClassData.then(function (_class) {
             $scope.classVar = _class.data;
             $scope.classVar_id = _class.data._id;
@@ -306,9 +310,13 @@ app.controller("ClassCrudOpsCtrl", function ($scope, ClassCrudService, StudentCr
     }
 	
     $scope.Cancel = function () {
+		$scope.ActionBtn = true;
+		$scope.Action = 'Add';
         $scope.divAddElement = false;
 		$scope.selection_watch();
-		$scope.Action = 'Add';
+		
+		
+		
     };
 	
 	
