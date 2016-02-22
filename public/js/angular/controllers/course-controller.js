@@ -4,6 +4,9 @@ controllers.CourseCrudOpsCtrl = function ($scope, CourseCrudService, ClassCrudSe
     $scope.divAddElement = false;
 	$scope.course_id = 0;
 	$scope.previous_selection = [];
+	$scope.totalItems = 0;
+	$scope.currentPage = 1;
+	$scope.numPerPage = 3;
 	
 	
 	$scope.init =  function(){
@@ -20,6 +23,13 @@ controllers.CourseCrudOpsCtrl = function ($scope, CourseCrudService, ClassCrudSe
         courses_data.then(function (courses) {
 								$scope.courses = courses.data;
 								$scope.divList = true;
+								$scope.paginate = function(value) {
+									var begin, end, index;
+									begin = ($scope.currentPage - 1) * $scope.numPerPage;
+									end = begin + $scope.numPerPage;
+									index = $scope.courses.indexOf(value);
+									return (begin <= index && index < end);
+								};
 							}, function (data) {
 								console.error('Error in getting classes :' + data.data);
 								$scope.errorMessage = 'Error in getting classes';
